@@ -1,0 +1,2602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RecoverPilot Recovery Control Room</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f7fb;
+        --surface: #ffffff;
+        --surface-soft: #fbfbfe;
+        --surface-tint: #f1f3fb;
+        --text: #121826;
+        --text-soft: #384154;
+        --muted: #6f7888;
+        --border: #e4e7ef;
+        --border-strong: #d5dae7;
+        --navy: #182033;
+        --indigo: #5b5ce2;
+        --indigo-dark: #3730a3;
+        --indigo-soft: #eef0ff;
+        --purple-soft: #f5f0ff;
+        --green: #177245;
+        --green-soft: #e8f8ef;
+        --amber: #a16207;
+        --amber-soft: #fff4d8;
+        --red: #b42318;
+        --red-soft: #fff0ed;
+        --slate-soft: #eef2f7;
+        --shadow: 0 22px 48px rgba(18, 24, 38, 0.09);
+        --shadow-soft: 0 10px 26px rgba(18, 24, 38, 0.06);
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-width: 320px;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(180deg, #ffffff 0, var(--bg) 320px),
+          var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        min-height: 36px;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background: var(--indigo);
+        color: #ffffff;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+      }
+
+      button:hover {
+        background: var(--indigo-dark);
+        box-shadow: 0 10px 20px rgba(91, 92, 226, 0.18);
+        transform: translateY(-1px);
+      }
+
+      button:disabled {
+        cursor: default;
+        opacity: 0.58;
+        transform: none;
+        box-shadow: none;
+      }
+
+      button.secondary,
+      button.ghost {
+        border-color: var(--border);
+        background: #ffffff;
+        color: var(--text-soft);
+      }
+
+      button.secondary:hover,
+      button.ghost:hover {
+        border-color: #c7cef9;
+        background: var(--indigo-soft);
+        color: var(--indigo-dark);
+      }
+
+      button.icon-button {
+        display: inline-grid;
+        width: 36px;
+        padding: 0;
+        place-items: center;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #ffffff;
+        color: var(--text);
+        padding: 10px 12px;
+        outline: none;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: #a6adff;
+        box-shadow: 0 0 0 4px rgba(91, 92, 226, 0.12);
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        min-height: 18px;
+        accent-color: var(--indigo);
+      }
+
+      label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--navy);
+        font-size: clamp(24px, 3vw, 34px);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        color: var(--navy);
+        font-size: 18px;
+        line-height: 1.25;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      a {
+        color: var(--indigo-dark);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .shell {
+        width: min(1500px, 100%);
+        margin: 0 auto;
+        padding: 22px 24px 40px;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin: -22px -24px 22px;
+        border-bottom: 1px solid rgba(213, 218, 231, 0.78);
+        background: rgba(255, 255, 255, 0.86);
+        padding: 16px 24px;
+        backdrop-filter: blur(14px);
+      }
+
+      .brand-cluster,
+      .sync-cluster,
+      .brand,
+      .store-chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 auto;
+        border-radius: 13px;
+        background: var(--navy);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 950;
+        place-items: center;
+        box-shadow: 0 14px 28px rgba(18, 24, 38, 0.18);
+      }
+
+      .brand strong,
+      .store-chip strong {
+        color: var(--navy);
+        font-size: 15px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .separator-dot {
+        width: 5px;
+        height: 5px;
+        flex: 0 0 auto;
+        border-radius: 999px;
+        background: #b7bdca;
+      }
+
+      .pilot-badge,
+      .badge,
+      .pill,
+      .status {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 25px;
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .pilot-badge,
+      .badge {
+        border: 1px solid #dcdcff;
+        background: var(--indigo-soft);
+        color: var(--indigo-dark);
+      }
+
+      .sync-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: #1fb36b;
+        box-shadow: 0 0 0 4px rgba(31, 179, 107, 0.15);
+      }
+
+      .sync-cluster {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .workspace {
+        display: grid;
+        gap: 18px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 20px;
+        align-items: end;
+        padding: 10px 2px 2px;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: 8px;
+      }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--indigo-dark);
+        font-size: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .hero-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .search-wrap {
+        position: relative;
+        width: min(340px, 100%);
+      }
+
+      .search-wrap svg {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        color: var(--muted);
+        transform: translateY(-50%);
+      }
+
+      .search-wrap input {
+        padding-left: 36px;
+      }
+
+      .notice {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 60;
+        max-width: min(420px, calc(100vw - 44px));
+        border: 1px solid rgba(209, 213, 231, 0.92);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.96);
+        color: var(--text-soft);
+        box-shadow: var(--shadow);
+        padding: 12px 14px;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .main-column,
+      .right-rail {
+        display: grid;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .right-rail {
+        position: sticky;
+        top: 84px;
+      }
+
+      .card,
+      .rail-card {
+        border: 1px solid rgba(213, 218, 231, 0.86);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow-soft);
+        overflow: hidden;
+      }
+
+      .queue-card {
+        box-shadow: var(--shadow);
+      }
+
+      .card-head,
+      .rail-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        border-bottom: 1px solid var(--border);
+        padding: 20px 22px;
+      }
+
+      .title-with-icon {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .icon-tile {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 auto;
+        border-radius: 14px;
+        background: var(--indigo-soft);
+        color: var(--indigo-dark);
+        place-items: center;
+      }
+
+      .icon-tile svg,
+      .mini-icon svg,
+      .action-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .card-title,
+      .rail-title {
+        display: grid;
+        gap: 4px;
+      }
+
+      .queue-demo-note {
+        color: #7c6f45;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .filter-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface-soft);
+        padding: 14px 20px;
+      }
+
+      .filter-chip {
+        min-height: 32px;
+        border-color: var(--border);
+        background: #ffffff;
+        color: var(--text-soft);
+        padding: 7px 12px;
+      }
+
+      .filter-chip.active {
+        border-color: #c7c9ff;
+        background: var(--navy);
+        color: #ffffff;
+      }
+
+      .queue-count {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .table-scroll {
+        overflow-x: hidden;
+        padding: 0 12px 6px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 12px;
+      }
+
+      .queue-table {
+        min-width: 0;
+        table-layout: fixed;
+      }
+
+      .queue-table th,
+      .queue-table td {
+        overflow-wrap: anywhere;
+      }
+
+      .queue-table th:nth-child(1),
+      .queue-table td:nth-child(1) {
+        width: 8%;
+      }
+
+      .queue-table th:nth-child(2),
+      .queue-table td:nth-child(2) {
+        width: 19%;
+      }
+
+      .queue-table th:nth-child(3),
+      .queue-table td:nth-child(3) {
+        width: 7%;
+      }
+
+      .queue-table th:nth-child(4),
+      .queue-table td:nth-child(4) {
+        width: 6%;
+      }
+
+      .queue-table th:nth-child(5),
+      .queue-table td:nth-child(5) {
+        width: 15%;
+      }
+
+      .queue-table th:nth-child(6),
+      .queue-table td:nth-child(6) {
+        width: 11%;
+      }
+
+      .queue-table th:nth-child(7),
+      .queue-table td:nth-child(7) {
+        width: 21%;
+      }
+
+      .queue-table th:nth-child(8),
+      .queue-table td:nth-child(8) {
+        width: 13%;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 950;
+        padding: 14px 10px 4px;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      td {
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: #ffffff;
+        color: var(--text-soft);
+        font-size: 14px;
+        line-height: 1.45;
+        padding: 18px 12px;
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      tr td:first-child {
+        border-left: 1px solid var(--border);
+        border-radius: 14px 0 0 14px;
+        padding-left: 14px;
+      }
+
+      tr td:last-child {
+        border-right: 1px solid var(--border);
+        border-radius: 0 14px 14px 0;
+        padding-right: 14px;
+      }
+
+      tbody tr {
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      tbody tr:hover {
+        transform: translateY(-1px);
+      }
+
+      tbody tr:hover td {
+        border-color: #d4d8f8;
+        box-shadow: 0 12px 26px rgba(18, 24, 38, 0.05);
+      }
+
+      .customer-cell {
+        min-width: 0;
+      }
+
+      .customer-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .avatar {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 auto;
+        border-radius: 13px;
+        background: #eef2f7;
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 950;
+        place-items: center;
+      }
+
+      .customer-copy {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      .customer-copy strong,
+      .money-strong {
+        color: var(--navy);
+        font-size: 14px;
+        font-weight: 950;
+      }
+
+      .subtext {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .message-preview {
+        max-width: none;
+        color: var(--text-soft);
+        font-size: 14px;
+        line-height: 1.56;
+      }
+
+      .pill.priority-high {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .pill.priority-medium {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .pill.priority-low {
+        background: var(--slate-soft);
+        color: #475569;
+      }
+
+      .pill.angle {
+        border: 1px solid #e5ddff;
+        background: var(--purple-soft);
+        color: #5b21b6;
+        justify-content: flex-start;
+        line-height: 1.25;
+        white-space: normal;
+      }
+
+      .status.needs_review,
+      .status.manual_send_needed,
+      .status.ready_to_send {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .status.sent,
+      .status.manual_sent {
+        background: var(--indigo-soft);
+        color: var(--indigo-dark);
+      }
+
+      .status.recovered,
+      .status.credited {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .status.failed,
+      .status.blocked,
+      .status.not_scheduled,
+      .status.cancelled,
+      .status.no_consent {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .status.waiting,
+      .status.scheduled,
+      .status.no_message,
+      .status.none {
+        background: var(--slate-soft);
+        color: #475569;
+      }
+
+      .queue-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .queue-actions button {
+        width: 100%;
+        min-height: 34px;
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+
+      .queue-actions button:nth-child(3) {
+        grid-column: 1 / -1;
+      }
+
+      .queue-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        border-top: 1px solid var(--border);
+        background: var(--surface-soft);
+        padding: 14px 20px;
+      }
+
+      .queue-footer strong {
+        color: var(--text-soft);
+        font-size: 13px;
+      }
+
+      .pagination {
+        display: flex;
+        gap: 6px;
+      }
+
+      .page-button {
+        display: grid;
+        width: 34px;
+        min-height: 34px;
+        padding: 0;
+        border-color: var(--border);
+        background: #ffffff;
+        color: var(--text-soft);
+        place-items: center;
+      }
+
+      .page-button.active {
+        border-color: var(--navy);
+        background: var(--navy);
+        color: #ffffff;
+      }
+
+      .rail-card {
+        border-radius: 16px;
+      }
+
+      .rail-head {
+        display: grid;
+        padding: 16px 16px 13px;
+      }
+
+      .rail-body {
+        display: grid;
+        gap: 12px;
+        padding: 16px 18px 18px;
+      }
+
+      .summary-list,
+      .settings-list,
+      .audit-list,
+      .pilot-steps,
+      .sync-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .pilot-steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: pilot-step;
+      }
+
+      .pilot-steps li {
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 10px;
+        align-items: start;
+        color: var(--text-soft);
+        font-size: 13px;
+        font-weight: 800;
+        line-height: 1.45;
+      }
+
+      .pilot-steps li::before {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        background: var(--indigo-soft);
+        color: var(--indigo-dark);
+        content: counter(pilot-step);
+        counter-increment: pilot-step;
+        font-size: 12px;
+        font-weight: 950;
+        place-items: center;
+      }
+
+      .summary-item,
+      .settings-item,
+      .sync-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+      }
+
+      .summary-item:last-child,
+      .settings-item:last-child,
+      .sync-item:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .summary-item span,
+      .settings-item span,
+      .sync-item span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .summary-item strong,
+      .settings-item strong,
+      .sync-item strong {
+        color: var(--navy);
+        font-size: 18px;
+        font-weight: 950;
+        text-align: right;
+      }
+
+      .settings-item strong,
+      .sync-item strong {
+        font-size: 13px;
+      }
+
+      .settings-editor {
+        display: none;
+        gap: 10px;
+        border-top: 1px solid var(--border);
+        margin-top: 2px;
+        padding-top: 14px;
+      }
+
+      .settings-editor.open {
+        display: grid;
+      }
+
+      .setting-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-soft);
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .audit-item,
+      .readiness-item,
+      .rail-event {
+        display: grid;
+        gap: 6px;
+        border-left: 3px solid #d9dcff;
+        padding-left: 12px;
+      }
+
+      .audit-item strong,
+      .readiness-item strong,
+      .rail-event strong {
+        color: var(--navy);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .audit-item p,
+      .readiness-item p,
+      .rail-event p {
+        font-size: 12px;
+      }
+
+      .integration-card summary {
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .integration-card {
+        display: none;
+      }
+
+      .integration-card.visible {
+        display: block;
+      }
+
+      .integration-card summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .integration-card[open] .rail-head {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .ops-section {
+        display: grid;
+        gap: 10px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 12px;
+      }
+
+      .ops-section:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .ops-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .ops-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .dev-controls {
+        display: none;
+      }
+
+      .dev-controls.visible {
+        display: grid;
+        gap: 10px;
+      }
+
+      .dev-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .hidden-data {
+        display: none;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(18, 24, 38, 0.42);
+        padding: 24px;
+      }
+
+      .modal-backdrop.open {
+        display: flex;
+      }
+
+      .modal {
+        width: min(640px, 100%);
+        max-height: calc(100vh - 48px);
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 32px 90px rgba(18, 24, 38, 0.24);
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--border);
+        padding: 18px 20px;
+      }
+
+      .modal-body {
+        display: grid;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .detail-section {
+        display: grid;
+        gap: 10px;
+      }
+
+      .detail-section h3 {
+        color: var(--navy);
+        font-size: 13px;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      .detail-item {
+        display: grid;
+        gap: 4px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      .detail-item span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .detail-item strong {
+        color: var(--navy);
+        font-size: 14px;
+      }
+
+      .reason-list {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px 12px 12px 28px;
+      }
+
+      .reason-list li {
+        color: var(--text-soft);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .message-box {
+        border: 1px solid #dfe2ff;
+        border-radius: 14px;
+        background: var(--indigo-soft);
+        color: var(--navy);
+        padding: 14px;
+        line-height: 1.55;
+      }
+
+      .modal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .empty {
+        padding: 34px 12px;
+        text-align: center;
+      }
+
+      .empty-state {
+        display: grid;
+        gap: 6px;
+        margin: 0 auto;
+        max-width: 460px;
+      }
+
+      .empty-state strong {
+        color: var(--navy);
+        font-size: 15px;
+      }
+
+      @media (max-width: 1180px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .right-rail {
+          position: static;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          align-items: start;
+        }
+
+        .integration-card {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .shell {
+          padding: 16px 14px 32px;
+        }
+
+        .topbar {
+          position: static;
+          align-items: flex-start;
+          margin: -16px -14px 18px;
+          padding: 14px;
+        }
+
+        .brand-cluster,
+        .topbar,
+        .hero {
+          flex-wrap: wrap;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-actions,
+        .search-wrap {
+          width: 100%;
+        }
+
+        .right-rail {
+          grid-template-columns: 1fr;
+        }
+
+        .setting-grid,
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .table-scroll {
+          padding: 0 12px 10px;
+        }
+
+        .queue-table,
+        .queue-table thead,
+        .queue-table tbody,
+        .queue-table tr,
+        .queue-table th,
+        .queue-table td {
+          display: block;
+          min-width: 0;
+          width: 100%;
+        }
+
+        .queue-table thead {
+          display: none;
+        }
+
+        .queue-table tr {
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          background: #ffffff;
+          margin: 12px 0;
+          overflow: hidden;
+        }
+
+        .queue-table td,
+        tr td:first-child,
+        tr td:last-child {
+          display: grid;
+          grid-template-columns: 120px minmax(0, 1fr);
+          gap: 12px;
+          border: 0;
+          border-bottom: 1px solid var(--border);
+          border-radius: 0;
+          padding: 12px 14px;
+        }
+
+        .queue-table td::before {
+          color: var(--muted);
+          content: attr(data-label);
+          font-size: 11px;
+          font-weight: 950;
+          text-transform: uppercase;
+        }
+
+        .queue-table td:last-child {
+          border-bottom: 0;
+        }
+
+        .message-preview {
+          max-width: none;
+        }
+
+        .queue-footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand-cluster">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">RP</div>
+            <strong>RecoverPilot</strong>
+          </div>
+          <span class="separator-dot" aria-hidden="true"></span>
+          <div class="store-chip">
+            <strong>Salanida Knitwear Demo</strong>
+            <span class="pilot-badge">Private Pilot</span>
+          </div>
+        </div>
+        <div class="sync-cluster">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <span id="last-synced">Last synced: demo data</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <div class="hero-eyebrow">
+              <span class="sync-dot" aria-hidden="true"></span>
+              Recovery control room
+            </div>
+            <h1 id="page-title">RecoverPilot</h1>
+            <p>Prioritize abandoned knitwear carts, review the recommended reassurance angle, and close the loop on recovered revenue.</p>
+          </div>
+          <div class="hero-actions">
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-3.5-3.5"></path>
+              </svg>
+              <input id="search" type="search" placeholder="Search customer, angle, status, or message">
+            </div>
+            <button id="request-pilot" type="button">Request Pilot Setup</button>
+            <button id="refresh" type="button" class="secondary">Refresh</button>
+            <span id="mode-badge" class="badge">Manual Review</span>
+          </div>
+        </section>
+
+        <div id="notice" class="notice" role="status" aria-live="polite">Demo ready.</div>
+
+        <div class="content-grid">
+          <div class="main-column">
+            <section id="recovery-queue-card" class="card queue-card" aria-labelledby="queue-title">
+              <div class="card-head">
+                <div class="title-with-icon">
+                  <div class="icon-tile" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 5h16"></path>
+                      <path d="M4 12h10"></path>
+                      <path d="M4 19h7"></path>
+                      <path d="m17 14 3 3-3 3"></path>
+                    </svg>
+                  </div>
+                  <div class="card-title">
+                    <h2 id="queue-title">Recovery Queue</h2>
+                    <p>Abandoned knitwear carts that may need reassurance before purchase.</p>
+                    <p class="queue-demo-note">Demo data shown for walkthrough purposes.</p>
+                  </div>
+                </div>
+                <span class="badge">Message Drafts Ready</span>
+              </div>
+
+              <div class="filter-row" aria-label="Queue filters">
+                <button type="button" class="filter-chip active" data-filter="all">All</button>
+                <button type="button" class="filter-chip" data-filter="high">High Priority</button>
+                <button type="button" class="filter-chip" data-filter="needs_review">Needs Review</button>
+                <button type="button" class="filter-chip" data-filter="sent">Sent</button>
+                <button type="button" class="filter-chip" data-filter="recovered">Recovered</button>
+                <button type="button" class="filter-chip" data-filter="failed">Failed</button>
+                <span id="queue-count" class="queue-count">4 carts shown</span>
+              </div>
+
+              <div class="table-scroll">
+                <table class="queue-table">
+                  <thead>
+                    <tr>
+                      <th>Priority</th>
+                      <th>Customer</th>
+                      <th>Cart Value</th>
+                      <th>Time</th>
+                      <th>Angle</th>
+                      <th>Status</th>
+                      <th>Prepared Message</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recovery-queue"></tbody>
+                </table>
+              </div>
+
+              <div class="queue-footer">
+                <strong id="queue-footer-copy">Showing 4 of 18 carts</strong>
+                <div class="pagination" aria-label="Queue pages">
+                  <button type="button" class="page-button active" data-page="1">1</button>
+                  <button type="button" class="page-button" data-page="2">2</button>
+                  <button type="button" class="page-button" data-page="3">3</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="hidden-data" aria-hidden="true">
+              <table><tbody id="messages"></tbody></table>
+              <table><tbody id="carts"></tbody></table>
+              <table><tbody id="conversions"></tbody></table>
+            </section>
+          </div>
+
+          <aside class="right-rail" aria-label="Recovery controls">
+            <section class="rail-card" aria-labelledby="summary-title">
+              <div class="rail-head">
+                <div class="rail-title">
+                  <h2 id="summary-title">Quick Summary</h2>
+                  <p>Salanida pilot snapshot</p>
+                </div>
+              </div>
+              <div class="rail-body">
+                <div class="summary-list">
+                  <div class="summary-item">
+                    <span>Abandoned Carts</span>
+                    <strong id="metric-carts">18</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span>Messages Prepared</span>
+                    <strong id="metric-messages">9</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span>Recovered Orders</span>
+                    <strong id="metric-conversions">3</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span>Recovered Revenue</span>
+                    <strong id="metric-revenue">€742</strong>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="settings-card" class="rail-card" aria-labelledby="settings-title">
+              <div class="rail-head">
+                <div class="rail-title">
+                  <h2 id="settings-title">Pilot Settings</h2>
+                  <p>Manual controls for the private pilot</p>
+                </div>
+              </div>
+              <div class="rail-body">
+                <div class="settings-list">
+                  <div class="settings-item">
+                    <span>Pilot Mode</span>
+                    <strong id="setting-summary-status">Manual Review</strong>
+                  </div>
+                  <div class="settings-item">
+                    <span>Delay</span>
+                    <strong id="setting-summary-delay">30 minutes</strong>
+                  </div>
+                  <div class="settings-item">
+                    <span>Attribution Window</span>
+                    <strong id="setting-summary-attribution">7 days</strong>
+                  </div>
+                  <div class="settings-item">
+                    <span>Message Library</span>
+                    <strong id="setting-summary-template">Knitwear recovery angles</strong>
+                  </div>
+                </div>
+                <button id="edit-message-library" type="button" class="secondary">Edit Message Library</button>
+                <div id="settings-editor" class="settings-editor">
+                  <label class="toggle-row">
+                    <input id="setting-enabled" type="checkbox" checked>
+                    Pilot messages enabled
+                  </label>
+                  <div class="setting-grid">
+                    <label>
+                      Delay minutes
+                      <input id="setting-delay" type="number" min="0" step="1" value="30">
+                    </label>
+                    <label>
+                      Attribution days
+                      <input id="setting-attribution" type="number" min="1" step="1" value="7">
+                    </label>
+                  </div>
+                  <label>
+                    Message template
+                    <textarea id="setting-template" rows="4">Hi {{first_name}}, your knitwear piece is still in your cart. Need help with sizing, material, or delivery before you complete your order?</textarea>
+                  </label>
+                  <button id="save-settings" type="button">Save Settings</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="rail-card" aria-labelledby="pilot-steps-title">
+              <div class="rail-head">
+                <div class="rail-title">
+                  <h2 id="pilot-steps-title">How the 7-day pilot works</h2>
+                  <p>A simple review loop for Salanida</p>
+                </div>
+              </div>
+              <div class="rail-body">
+                <ol class="pilot-steps">
+                  <li>We monitor abandoned carts or use a small cart sample.</li>
+                  <li>RecoverPilot recommends the best follow-up angle.</li>
+                  <li>Your team reviews or sends the prepared message.</li>
+                  <li>We track whether customers return and purchase.</li>
+                  <li>You receive a short recovery summary.</li>
+                </ol>
+              </div>
+            </section>
+
+            <section id="decision-audit-card" class="rail-card" aria-labelledby="audit-title">
+              <div class="rail-head">
+                <div class="rail-title">
+                  <h2 id="audit-title">Decision Audit</h2>
+                  <p>Why the next action is recommended</p>
+                </div>
+              </div>
+              <div id="audits" class="rail-body audit-list">
+                <div class="audit-item">
+                  <strong>Size reassurance selected because the customer chose a size-based knitwear item.</strong>
+                </div>
+                <div class="audit-item">
+                  <strong>Manual review required because this is a high-value cart.</strong>
+                </div>
+                <div class="audit-item">
+                  <strong>Revenue credited because purchase happened 2h 14m after follow-up within the 7-day attribution window.</strong>
+                </div>
+                <div class="audit-item">
+                  <strong>Message blocked because customer has no marketing consent.</strong>
+                </div>
+              </div>
+            </section>
+
+            <details id="integration-card" class="rail-card integration-card" hidden>
+              <summary class="rail-head">
+                <div class="rail-title">
+                  <h2>Integration Controls</h2>
+                  <p>Live backend checks remain available for the pilot operator</p>
+                </div>
+              </summary>
+              <div class="rail-body">
+                <div class="ops-section">
+                  <div class="ops-row">
+                    <h3>Shopify</h3>
+                    <span id="shopify-status-badge" class="status waiting">Checking</span>
+                  </div>
+                  <p id="shopify-status-copy">Checking store connection and data path.</p>
+                  <p id="shopify-status-meta" class="subtext"></p>
+                  <div class="ops-actions">
+                    <button id="shopify-check-data" type="button" class="secondary">Check Data</button>
+                    <button id="shopify-register-webhooks" type="button" class="secondary">Register Webhooks</button>
+                    <button id="shopify-import-checkouts" type="button">Import Checkouts</button>
+                    <button id="shopify-import-orders" type="button" class="secondary">Import Orders</button>
+                  </div>
+                </div>
+
+                <div class="ops-section">
+                  <div class="ops-row">
+                    <h3>WhatsApp Provider</h3>
+                    <span id="twilio-status-badge" class="status waiting">Checking</span>
+                  </div>
+                  <p id="twilio-status-copy">Checking provider configuration.</p>
+                  <div class="ops-row">
+                    <span id="twilio-test-badge" class="status waiting">Waiting</span>
+                    <button id="twilio-test-send" type="button" class="secondary">Send Test</button>
+                  </div>
+                  <div class="ops-row">
+                    <span id="twilio-run-badge" class="status waiting">Not active</span>
+                    <button id="twilio-run-send" type="button">Send Ready via Twilio</button>
+                  </div>
+                  <p id="twilio-run-copy">Ready messages can be sent through Twilio after setup.</p>
+                  <button id="twilio-sync-status" type="button" class="secondary">Check Delivery</button>
+                </div>
+
+                <div class="ops-section">
+                  <h3>Automation</h3>
+                  <div class="sync-list">
+                    <div class="sync-item">
+                      <span>Worker</span>
+                      <strong id="automation-worker">-</strong>
+                    </div>
+                    <div class="sync-item">
+                      <span>Ready</span>
+                      <strong id="automation-ready">0</strong>
+                    </div>
+                    <div class="sync-item">
+                      <span>Due</span>
+                      <strong id="automation-due">0</strong>
+                    </div>
+                    <div class="sync-item">
+                      <span>Last Run</span>
+                      <strong id="automation-last-run">-</strong>
+                    </div>
+                    <div class="sync-item">
+                      <span>Next Due</span>
+                      <strong id="automation-next-due">-</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ops-section">
+                  <h3>Readiness</h3>
+                  <div id="production-readiness" class="readiness-item">
+                    <strong>Production readiness</strong>
+                    <p>Checking...</p>
+                  </div>
+                  <div id="pilot-readiness" class="readiness-item">
+                    <strong>Pilot readiness</strong>
+                    <p>Checking...</p>
+                  </div>
+                </div>
+
+                <details id="dev-controls" class="dev-controls">
+                  <summary><h3>Demo Tools</h3></summary>
+                  <div class="dev-grid">
+                    <button data-action="/demo/reset" data-label="Reset demo" class="ghost">Reset</button>
+                    <button data-action="/demo/abandoned-cart" data-label="Add abandoned cart" class="ghost">Add Cart</button>
+                    <button data-action="/scheduler/run" data-label="Run scheduler" class="ghost">Scheduler</button>
+                    <button data-action="/demo/message-due" data-label="Make message due" class="ghost">Make Due</button>
+                    <button data-action="/demo/purchase" data-label="Record purchase" class="ghost">Purchase</button>
+                    <button data-action="/demo/no-consent-cart" data-label="Add no-consent cart" class="ghost">No Consent</button>
+                    <button data-action="/demo/customer-opt-out" data-label="Opt customer out" class="ghost">Opt Out</button>
+                    <button data-action="/demo/new-cart-same-customer" data-label="Add new cart for same customer" class="ghost">New Cart</button>
+                    <button data-action="/demo/same-cart-new-event" data-label="Add same cart event" class="ghost">Same Cart</button>
+                    <button data-action="/demo/campaign-off" data-label="Turn campaign off" class="ghost">Off</button>
+                    <button data-action="/sender/fake-whatsapp/run" data-label="Fake send WhatsApp" class="ghost">Fake Send</button>
+                    <button data-action="/demo/fail-send" data-label="Fail WhatsApp send" class="ghost">Fail Send</button>
+                    <button data-action="/demo/retry-send" data-label="Retry failed WhatsApp" class="ghost">Retry</button>
+                    <button data-action="/demo/late-purchase" data-label="Record late purchase" class="ghost">Late Buy</button>
+                  </div>
+                </details>
+              </div>
+            </details>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <div id="detail-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <h2 id="detail-title">Cart Detail</h2>
+            <p id="detail-subtitle">Review the customer, cart, and recommended message.</p>
+          </div>
+          <button id="modal-close" type="button" class="icon-button secondary" aria-label="Close detail modal">×</button>
+        </div>
+        <div id="detail-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="pilot-setup-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pilot-setup-title">
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <h2 id="pilot-setup-title">How we can start the 7-day pilot</h2>
+            <p>For the first pilot, setup can stay lightweight. We do not need a full public app installation immediately.</p>
+          </div>
+          <button id="pilot-setup-close" type="button" class="icon-button secondary" aria-label="Close pilot setup modal">×</button>
+        </div>
+        <div class="modal-body">
+          <ol class="pilot-steps">
+            <li>Start with a small abandoned cart sample/export or demo cart data.</li>
+            <li>RecoverPilot identifies the likely reassurance angle for each cart.</li>
+            <li>Your team reviews or sends the prepared follow-up message.</li>
+            <li>We track whether customers return and purchase.</li>
+            <li>After 7 days, you receive a short recovery summary.</li>
+          </ol>
+          <p>If the workflow is useful, we can discuss a cleaner Shopify connection later.</p>
+          <div class="modal-actions">
+            <button id="pilot-setup-close-body" type="button" class="secondary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const DEMO_TOTAL_CARTS = 18;
+      const DEMO_QUEUE_SEED = [
+        {
+          id: "maya-chen",
+          customer_name: "Maya Chen",
+          customer_email: "maya.chen@email.com",
+          cart_value: 220,
+          currency: "EUR",
+          time_label: "32 min ago",
+          priority: "high",
+          angle: "Size / Fit Reassurance",
+          status: "needs_review",
+          message_preview: "Hi Maya, the Merino Knit Cardigan in size M has a relaxed fit. If you are unsure about sizing, we are happy to help before you complete your order.",
+          product: "Merino Knit Cardigan, Size M",
+          reason_points: [
+            "Customer selected a size-based knitwear item",
+            "Cart value is €220",
+            "Cart was abandoned recently",
+            "Fit uncertainty may stop premium knitwear purchases"
+          ],
+          suggested_action: "Review and send a size/fit reassurance follow-up.",
+          can_mark_sent: true
+        },
+        {
+          id: "lina-wong",
+          customer_name: "Lina Wong",
+          customer_email: "lina.wong@email.com",
+          cart_value: 340,
+          currency: "EUR",
+          time_label: "2h ago",
+          priority: "medium",
+          angle: "Material Quality Reassurance",
+          status: "recovered",
+          message_preview: "Hi Lina, your Cashmere Knit Set is crafted from premium cashmere for lasting softness and comfort.",
+          product: "Cashmere Knit Set",
+          reason_points: [
+            "Customer added a higher-value cashmere product",
+            "Premium material may need reassurance before purchase",
+            "Quality and long-term value are likely decision factors"
+          ],
+          suggested_action: "Show material quality reassurance and long-term value.",
+          can_mark_sent: false
+        },
+        {
+          id: "sarah-tan",
+          customer_name: "Sarah Tan",
+          customer_email: "sarah.tan@email.com",
+          cart_value: 145,
+          currency: "EUR",
+          time_label: "3h ago",
+          priority: "low",
+          angle: "Delivery Timing",
+          status: "sent",
+          message_preview: "Hi Sarah, your Ribbed Knit Top is still reserved in your cart. Estimated delivery is 2–4 working days.",
+          product: "Ribbed Knit Top",
+          reason_points: [
+            "Customer may need clarity before completing checkout",
+            "Delivery timing can reduce hesitation",
+            "This row shows an example of a completed follow-up"
+          ],
+          suggested_action: "No action needed. The follow-up has already been sent.",
+          can_mark_sent: false
+        },
+        {
+          id: "fatima-ali",
+          customer_name: "Fatima Ali",
+          customer_email: "fatima.ali@email.com",
+          cart_value: 198,
+          currency: "EUR",
+          time_label: "5h ago",
+          priority: "high",
+          angle: "Purchase Confidence",
+          status: "needs_review",
+          message_preview: "Hi Fatima, the Knit Dress is a customer favourite. Let us know if you need help with sizing, styling, or delivery before checkout.",
+          product: "Knit Dress",
+          reason_points: [
+            "Customer abandoned a higher-consideration knitwear item",
+            "The message should reduce final doubts around sizing, styling, or delivery",
+            "Manual review is recommended before sending"
+          ],
+          suggested_action: "Review and send a confidence-based follow-up.",
+          can_mark_sent: true
+        }
+      ];
+
+      const DEMO_AUDITS = [
+        "Size reassurance selected because the customer chose a size-based knitwear item.",
+        "Manual review required because this is a high-value cart.",
+        "Revenue credited because purchase happened 2h 14m after follow-up within the 7-day attribution window.",
+        "Message blocked because customer has no marketing consent."
+      ];
+
+      let currentDashboard = null;
+      let currentAutomationStatus = null;
+      let currentTwilioStatus = null;
+      let activeQueueFilter = "all";
+      let activePage = 1;
+      let noticeTimer = null;
+      const showInternalControls = new URLSearchParams(window.location.search).get("dev") === "1";
+      const demoStatusOverrides = {};
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function money(value, currency = "EUR") {
+        return new Intl.NumberFormat("en-IE", {
+          style: "currency",
+          currency,
+          maximumFractionDigits: 0
+        }).format(Number(value) || 0);
+      }
+
+      function readDemoOverrides() {
+        return demoStatusOverrides;
+      }
+
+      function writeDemoOverride(id, status) {
+        demoStatusOverrides[id] = status;
+      }
+
+      function demoRows() {
+        const overrides = readDemoOverrides();
+        return DEMO_QUEUE_SEED.map((row) => ({
+          ...row,
+          status: overrides[row.id] || row.status,
+          can_mark_sent: (overrides[row.id] || row.status) === "needs_review" || (overrides[row.id] || row.status) === "failed"
+        }));
+      }
+
+      function initials(name) {
+        return String(name || "")
+          .split(/\s+/)
+          .filter(Boolean)
+          .slice(0, 2)
+          .map((part) => part[0])
+          .join("")
+          .toUpperCase() || "RP";
+      }
+
+      function statusLabel(status) {
+        return {
+          needs_review: "Needs Review",
+          manual_send_needed: "Needs Review",
+          ready_to_send: "Needs Review",
+          recovered: "Recovered",
+          credited: "Recovered",
+          sent: "Sent",
+          manual_sent: "Sent",
+          failed: "Failed",
+          blocked: "Blocked",
+          not_scheduled: "Blocked",
+          cancelled: "Blocked",
+          no_message: "Needs Review",
+          scheduled: "Scheduled",
+          waiting: "Waiting",
+          none: "No status"
+        }[status] || String(status || "No status").replaceAll("_", " ");
+      }
+
+      function statusBadge(status) {
+        const safeStatus = String(status || "none");
+        return `<span class="status ${escapeHtml(safeStatus)}">${escapeHtml(statusLabel(safeStatus))}</span>`;
+      }
+
+      function priorityLabel(priority) {
+        return {
+          high: "High",
+          medium: "Medium",
+          low: "Low"
+        }[priority] || "Medium";
+      }
+
+      function priorityPill(priority) {
+        return `<span class="pill priority-${escapeHtml(priority)}">${escapeHtml(priorityLabel(priority))}</span>`;
+      }
+
+      function anglePill(angle) {
+        return `<span class="pill angle">${escapeHtml(angle)}</span>`;
+      }
+
+      function setNotice(message, persist = false) {
+        const notice = document.getElementById("notice");
+        notice.textContent = message;
+        notice.style.display = "block";
+
+        if (noticeTimer) {
+          clearTimeout(noticeTimer);
+        }
+
+        if (!persist) {
+          noticeTimer = setTimeout(() => {
+            notice.style.display = "none";
+          }, 3600);
+        }
+      }
+
+      function shortTime(value) {
+        if (!value) return "-";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return String(value);
+        return date.toLocaleString([], {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      }
+
+      function activeStoreId() {
+        return currentDashboard?.active_store?.store_id || "store_salanida_demo";
+      }
+
+      function activeShopDomain() {
+        return currentDashboard?.active_store?.store_domain || "";
+      }
+
+      function setButtonEnabled(id, enabled) {
+        const button = document.getElementById(id);
+        if (button) {
+          button.disabled = !enabled;
+        }
+      }
+
+      function snapshotButtonStates() {
+        return [...document.querySelectorAll("button")].map((button) => ({
+          button,
+          disabled: button.disabled
+        }));
+      }
+
+      function restoreButtonStates(states) {
+        states.forEach(({ button, disabled }) => {
+          button.disabled = disabled;
+        });
+      }
+
+      function filteredRows() {
+        const query = document.getElementById("search").value.trim().toLowerCase();
+        return demoRows().filter((row) => {
+          const haystack = [
+            row.customer_name,
+            row.customer_email,
+            row.cart_value,
+            row.time_label,
+            row.priority,
+            row.angle,
+            statusLabel(row.status),
+            row.message_preview
+          ].join(" ").toLowerCase();
+
+          const matchesFilter =
+            activeQueueFilter === "all" ||
+            (activeQueueFilter === "high" && row.priority === "high") ||
+            (activeQueueFilter === "needs_review" && row.status === "needs_review") ||
+            (activeQueueFilter === "sent" && row.status === "sent") ||
+            (activeQueueFilter === "recovered" && row.status === "recovered") ||
+            (activeQueueFilter === "failed" && row.status === "failed");
+
+          return matchesFilter && (!query || haystack.includes(query));
+        });
+      }
+
+      function actionButtons(row) {
+        const terminalLabel = row.status === "recovered" ? "Recovered" : row.status === "sent" ? "Sent" : statusLabel(row.status);
+        const sendAction = row.can_mark_sent
+          ? `<button type="button" data-queue-action="mark-sent" data-row-id="${escapeHtml(row.id)}">Mark Sent</button>`
+          : `<button type="button" disabled>${escapeHtml(terminalLabel)}</button>`;
+
+        return `
+          <div class="queue-actions">
+            <button type="button" class="secondary" data-queue-action="copy" data-row-id="${escapeHtml(row.id)}">Copy</button>
+            <button type="button" class="ghost" data-queue-action="view" data-row-id="${escapeHtml(row.id)}">View</button>
+            ${sendAction}
+          </div>
+        `;
+      }
+
+      function emptyRow(columns, title, message) {
+        return `
+          <tr>
+            <td colspan="${columns}" class="empty">
+              <div class="empty-state">
+                <strong>${escapeHtml(title)}</strong>
+                <p>${escapeHtml(message)}</p>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+
+      function renderRecoveryQueue() {
+        const rows = filteredRows();
+        const tbody = document.getElementById("recovery-queue");
+        document.getElementById("queue-count").textContent = `${rows.length} cart${rows.length === 1 ? "" : "s"} shown`;
+        document.getElementById("queue-footer-copy").textContent = `Showing ${rows.length} of ${DEMO_TOTAL_CARTS} carts`;
+
+        tbody.innerHTML = rows.length
+          ? rows.map((row) => `
+              <tr>
+                <td data-label="Priority">${priorityPill(row.priority)}</td>
+                <td data-label="Customer" class="customer-cell">
+                  <div class="customer-profile">
+                    <div class="avatar">${escapeHtml(initials(row.customer_name))}</div>
+                    <div class="customer-copy">
+                      <strong>${escapeHtml(row.customer_name)}</strong>
+                      <span class="subtext">${escapeHtml(row.customer_email)}</span>
+                    </div>
+                  </div>
+                </td>
+                <td data-label="Cart Value"><strong class="money-strong">${money(row.cart_value, row.currency)}</strong></td>
+                <td data-label="Time">${escapeHtml(row.time_label)}</td>
+                <td data-label="Angle">${anglePill(row.angle)}</td>
+                <td data-label="Status">${statusBadge(row.status)}</td>
+                <td data-label="Prepared Message" class="message-preview">${escapeHtml(row.message_preview)}</td>
+                <td data-label="Actions">${actionButtons(row)}</td>
+              </tr>
+            `).join("")
+          : emptyRow(
+              8,
+              "No carts match this view.",
+              "Try another filter or search term to return to the active Salanida recovery queue."
+            );
+      }
+
+      function findQueueItem(id) {
+        return demoRows().find((row) => row.id === id);
+      }
+
+      function reasonList(points) {
+        return `
+          <ul class="reason-list">
+            ${(points || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
+          </ul>
+        `;
+      }
+
+      async function copyText(value) {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(value);
+          return;
+        }
+
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      }
+
+      async function copyRecoveryMessage(rowId) {
+        const item = findQueueItem(rowId);
+        if (!item) {
+          setNotice("Copy failed: message not found.");
+          return;
+        }
+
+        try {
+          await copyText(item.message_preview);
+          setNotice(`Copied prepared message for ${item.customer_name}.`);
+        } catch (error) {
+          setNotice("Copy failed. Open the detail view and select the message manually.", true);
+        }
+      }
+
+      function openDetailModal(rowId) {
+        const item = findQueueItem(rowId);
+        if (!item) {
+          setNotice("View failed: cart not found.");
+          return;
+        }
+
+        document.getElementById("detail-title").textContent = "Cart Recovery Detail";
+        document.getElementById("detail-subtitle").textContent = `${item.customer_name} · ${money(item.cart_value, item.currency)} · ${item.time_label}`;
+        document.getElementById("detail-body").innerHTML = `
+          <section class="detail-section">
+            <h3>A. Customer & Cart</h3>
+            <div class="detail-grid">
+              <div class="detail-item">
+                <span>Customer name</span>
+                <strong>${escapeHtml(item.customer_name)}</strong>
+              </div>
+              <div class="detail-item">
+                <span>Customer email</span>
+                <strong>${escapeHtml(item.customer_email)}</strong>
+              </div>
+              <div class="detail-item">
+                <span>Product / cart item</span>
+                <strong>${escapeHtml(item.product)}</strong>
+              </div>
+              <div class="detail-item">
+                <span>Cart value</span>
+                <strong>${money(item.cart_value, item.currency)}</strong>
+              </div>
+              <div class="detail-item">
+                <span>Time abandoned</span>
+                <strong>${escapeHtml(item.time_label)}</strong>
+              </div>
+              <div class="detail-item">
+                <span>Priority</span>
+                <strong>${escapeHtml(priorityLabel(item.priority))}</strong>
+              </div>
+              <div class="detail-item">
+                <span>Status</span>
+                <strong>${escapeHtml(statusLabel(item.status))}</strong>
+              </div>
+            </div>
+          </section>
+          <section class="detail-section">
+            <h3>B. Recommended Angle</h3>
+            <div class="detail-item">
+              <span>Angle</span>
+              <strong>${escapeHtml(item.angle)}</strong>
+            </div>
+          </section>
+          <section class="detail-section">
+            <h3>C. Why this angle?</h3>
+            ${reasonList(item.reason_points)}
+          </section>
+          <section class="detail-section">
+            <h3>D. Prepared Message</h3>
+            <div class="message-box">${escapeHtml(item.message_preview)}</div>
+          </section>
+          <section class="detail-section">
+            <h3>E. Suggested Action</h3>
+            <div class="detail-item">
+              <strong>${escapeHtml(item.suggested_action)}</strong>
+            </div>
+          </section>
+          <div class="modal-actions">
+            <button type="button" class="secondary" data-modal-action="copy" data-row-id="${escapeHtml(item.id)}">Copy</button>
+            ${item.can_mark_sent ? `<button type="button" data-modal-action="mark-sent" data-row-id="${escapeHtml(item.id)}">Mark Sent</button>` : ""}
+          </div>
+        `;
+        document.getElementById("detail-modal").classList.add("open");
+      }
+
+      function closeDetailModal() {
+        document.getElementById("detail-modal").classList.remove("open");
+      }
+
+      function openPilotSetupModal() {
+        document.getElementById("pilot-setup-modal").classList.add("open");
+      }
+
+      function closePilotSetupModal() {
+        document.getElementById("pilot-setup-modal").classList.remove("open");
+      }
+
+      async function markManualSent(rowId) {
+        const item = findQueueItem(rowId);
+        if (!item) {
+          setNotice("Mark sent failed: cart not found.");
+          return;
+        }
+
+        if (item.message_id) {
+          const buttonStates = snapshotButtonStates();
+          buttonStates.forEach(({ button }) => {
+            button.disabled = true;
+          });
+          setNotice(`Marking message as sent for ${item.customer_name}...`, true);
+
+          try {
+            const response = await fetch("/manual-pilot/messages/mark-sent", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ message_id: item.message_id })
+            });
+            const result = await response.json();
+
+            if (!response.ok || result.ok === false) {
+              setNotice(`Mark sent failed: ${result.error || "Unknown error"}`, true);
+              return;
+            }
+
+            closeDetailModal();
+            setNotice(`Message marked sent for ${item.customer_name}.`);
+            await loadDashboard(false);
+          } catch (error) {
+            setNotice(`Mark sent failed: ${error.message}`, true);
+          } finally {
+            restoreButtonStates(buttonStates);
+            renderRecoveryQueue();
+          }
+          return;
+        }
+
+        writeDemoOverride(rowId, "sent");
+        renderRecoveryQueue();
+        closeDetailModal();
+        setNotice(`Marked prepared message as sent for ${item.customer_name}.`);
+      }
+
+      function updateSettingsSummary(settings) {
+        document.getElementById("setting-summary-status").textContent = settings.enabled ? "Manual Review" : "Paused";
+        document.getElementById("setting-summary-delay").textContent = `${Number(settings.delay_minutes) || 30} minutes`;
+        document.getElementById("setting-summary-attribution").textContent = `${Number(settings.attribution_window_days) || 7} days`;
+        document.getElementById("setting-summary-template").textContent = "Knitwear recovery angles";
+      }
+
+      function applySettingsFromDashboard(data) {
+        const activeStore = data?.active_store;
+        const settings = (data?.campaign_settings || []).find((item) => item.store_id === activeStore?.store_id) ||
+          (data?.campaign_settings || [])[0] || {
+            enabled: true,
+            delay_minutes: 30,
+            attribution_window_days: 7,
+            message_template: "Hi {{first_name}}, your knitwear piece is still in your cart. Need help with sizing, material, or delivery before you complete your order?"
+          };
+
+        document.getElementById("setting-enabled").checked = settings.enabled !== false;
+        document.getElementById("setting-delay").value = 30;
+        document.getElementById("setting-attribution").value = Number(settings.attribution_window_days) || 7;
+        document.getElementById("setting-template").value = settings.message_template || "";
+        updateSettingsSummary({
+          enabled: settings.enabled !== false,
+          delay_minutes: 30,
+          attribution_window_days: Number(settings.attribution_window_days) || 7
+        });
+      }
+
+      async function saveSettings() {
+        const payload = {
+          store_id: activeStoreId(),
+          enabled: document.getElementById("setting-enabled").checked,
+          delay_minutes: Number(document.getElementById("setting-delay").value),
+          attribution_window_days: Number(document.getElementById("setting-attribution").value),
+          message_template: document.getElementById("setting-template").value
+        };
+        const buttonStates = snapshotButtonStates();
+        buttonStates.forEach(({ button }) => {
+          button.disabled = true;
+        });
+        setNotice("Saving pilot settings...", true);
+
+        try {
+          const response = await fetch("/campaign/settings", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+          const result = await response.json();
+
+          if (!response.ok || result.ok === false) {
+            setNotice(`Save settings failed: ${result.error || "Unknown error"}`, true);
+            return;
+          }
+
+          updateSettingsSummary(payload);
+          setNotice("Pilot settings saved.");
+          await loadDashboard(false);
+        } catch (error) {
+          setNotice(`Save settings failed: ${error.message}`, true);
+        } finally {
+          restoreButtonStates(buttonStates);
+          renderRecoveryQueue();
+        }
+      }
+
+      async function loadAutomationStatus() {
+        try {
+          const response = await fetch("/automation/status");
+          const status = await response.json();
+          currentAutomationStatus = status;
+
+          document.getElementById("automation-worker").textContent = status.auto_worker?.manual_pilot_mode ? "manual" : "auto";
+          document.getElementById("automation-ready").textContent =
+            (status.queue?.ready_to_send_messages || 0) + (status.queue?.manual_send_needed_messages || 0);
+          document.getElementById("automation-due").textContent = status.queue?.due_scheduled_messages || 0;
+          document.getElementById("automation-last-run").textContent = status.last_run?.completed_at
+            ? shortTime(status.last_run.completed_at)
+            : "-";
+          document.getElementById("automation-next-due").textContent = status.queue?.next_scheduled_at
+            ? shortTime(status.queue.next_scheduled_at)
+            : "-";
+          document.getElementById("mode-badge").textContent = "Manual Review";
+        } catch (error) {
+          document.getElementById("automation-worker").textContent = "offline";
+        }
+      }
+
+      async function loadShopifyStatus() {
+        const shop = activeShopDomain();
+        if (!shop) {
+          document.getElementById("shopify-status-badge").outerHTML = '<span id="shopify-status-badge" class="status waiting">No store</span>';
+          document.getElementById("shopify-status-copy").textContent = "No installed Shopify store is saved locally yet.";
+          document.getElementById("shopify-status-meta").textContent = "";
+          setButtonEnabled("shopify-register-webhooks", false);
+          setButtonEnabled("shopify-import-checkouts", false);
+          setButtonEnabled("shopify-import-orders", false);
+          return;
+        }
+
+        document.getElementById("shopify-status-meta").textContent = shop;
+
+        try {
+          const [authResponse, ingestionResponse] = await Promise.all([
+            fetch("/auth/shopify/status"),
+            fetch(`/shopify/ingestion/status?shop=${encodeURIComponent(shop)}`)
+          ]);
+          const auth = await authResponse.json();
+          const ingestion = await ingestionResponse.json();
+          const activeStore = (auth.stores || []).find((store) => store.store_domain === shop) || currentDashboard?.active_store;
+          const ready = Boolean(activeStore?.has_shopify_access_token && activeStore?.app_status === "installed");
+
+          document.getElementById("shopify-status-badge").outerHTML = ready
+            ? '<span id="shopify-status-badge" class="status credited">Connected</span>'
+            : '<span id="shopify-status-badge" class="status waiting">Needs install</span>';
+          document.getElementById("shopify-status-copy").textContent = ready
+            ? `Store connection is available. Local carts: ${ingestion.local_counts?.carts || 0}.`
+            : "Install or refresh the Shopify app before importing pilot data.";
+
+          setButtonEnabled("shopify-register-webhooks", ready);
+          setButtonEnabled("shopify-import-checkouts", ready && Boolean(ingestion.readiness?.abandoned_checkout_import_ready));
+          setButtonEnabled("shopify-import-orders", ready && Boolean(ingestion.readiness?.has_read_orders_scope));
+        } catch (error) {
+          document.getElementById("shopify-status-badge").outerHTML = '<span id="shopify-status-badge" class="status failed">Error</span>';
+          document.getElementById("shopify-status-copy").textContent = `Shopify status failed: ${error.message}`;
+          setButtonEnabled("shopify-register-webhooks", false);
+          setButtonEnabled("shopify-import-checkouts", false);
+          setButtonEnabled("shopify-import-orders", false);
+        }
+      }
+
+      async function loadTwilioStatus() {
+        try {
+          const response = await fetch("/sender/twilio-whatsapp/status");
+          const status = await response.json();
+          currentTwilioStatus = status;
+
+          const ready = Boolean(status.enabled && status.configured);
+          const configuredOnly = Boolean(!status.enabled && status.configured);
+          const manualMode = Boolean(currentAutomationStatus?.auto_worker?.manual_pilot_mode);
+          const providerReadyCount = Number(currentAutomationStatus?.queue?.ready_to_send_messages || 0);
+          const missingText = status.missing && status.missing.length
+            ? `Missing: ${status.missing.join(", ")}`
+            : "Configuration values are present.";
+
+          if (ready) {
+            document.getElementById("twilio-status-badge").outerHTML = '<span id="twilio-status-badge" class="status credited">Ready</span>';
+            document.getElementById("twilio-status-copy").textContent = `Twilio is enabled. Sender: ${status.sandbox_from || "configured"}.`;
+            document.getElementById("twilio-test-badge").outerHTML = '<span id="twilio-test-badge" class="status sent">Ready</span>';
+            if (manualMode) {
+              document.getElementById("twilio-run-badge").outerHTML = '<span id="twilio-run-badge" class="status waiting">Manual mode</span>';
+              document.getElementById("twilio-run-copy").textContent = "Queue sending is blocked until manual pilot mode is disabled and the app is restarted.";
+            } else if (providerReadyCount <= 0) {
+              document.getElementById("twilio-run-badge").outerHTML = '<span id="twilio-run-badge" class="status waiting">No ready messages</span>';
+              document.getElementById("twilio-run-copy").textContent = "No provider-ready queue messages yet.";
+            } else {
+              document.getElementById("twilio-run-badge").outerHTML = '<span id="twilio-run-badge" class="status sent">Ready</span>';
+              document.getElementById("twilio-run-copy").textContent = `${providerReadyCount} message${providerReadyCount === 1 ? "" : "s"} can be sent through Twilio.`;
+            }
+          } else if (configuredOnly) {
+            document.getElementById("twilio-status-badge").outerHTML = '<span id="twilio-status-badge" class="status scheduled">Configured</span>';
+            document.getElementById("twilio-status-copy").textContent = "Keys are present. Enable Twilio WhatsApp after the sandbox phone joins.";
+            document.getElementById("twilio-test-badge").outerHTML = '<span id="twilio-test-badge" class="status waiting">Enable first</span>';
+            document.getElementById("twilio-run-badge").outerHTML = '<span id="twilio-run-badge" class="status waiting">Enable first</span>';
+            document.getElementById("twilio-run-copy").textContent = "Provider sending stays blocked until the enabled flag is true.";
+          } else {
+            document.getElementById("twilio-status-badge").outerHTML = '<span id="twilio-status-badge" class="status not_scheduled">Needs setup</span>';
+            document.getElementById("twilio-status-copy").textContent = missingText;
+            document.getElementById("twilio-test-badge").outerHTML = '<span id="twilio-test-badge" class="status waiting">Waiting</span>';
+            document.getElementById("twilio-run-badge").outerHTML = '<span id="twilio-run-badge" class="status waiting">Waiting</span>';
+            document.getElementById("twilio-run-copy").textContent = "Add Twilio environment values, restart the app, then run the sandbox test.";
+          }
+
+          setButtonEnabled("twilio-test-send", ready && status.has_test_recipient);
+          setButtonEnabled("twilio-run-send", ready && !manualMode && providerReadyCount > 0);
+          setButtonEnabled("twilio-sync-status", ready);
+        } catch (error) {
+          document.getElementById("twilio-status-badge").outerHTML = '<span id="twilio-status-badge" class="status failed">Error</span>';
+          document.getElementById("twilio-status-copy").textContent = `Provider status failed: ${error.message}`;
+          setButtonEnabled("twilio-test-send", false);
+          setButtonEnabled("twilio-run-send", false);
+          setButtonEnabled("twilio-sync-status", false);
+        }
+      }
+
+      function renderReadiness(targetId, title, payload) {
+        const target = document.getElementById(targetId);
+        const summary = payload?.readiness?.summary || payload?.summary;
+        const checks = payload?.readiness?.checks || payload?.checks || [];
+        const firstAction = checks.find((check) => check.status !== "ready");
+
+        target.innerHTML = `
+          <strong>${escapeHtml(title)}: ${escapeHtml(summary?.label || payload?.status || "Checked")}</strong>
+          <p>${escapeHtml(firstAction?.next_step || firstAction?.detail || "No urgent action item returned.")}</p>
+        `;
+      }
+
+      async function loadProductionReadiness() {
+        try {
+          const response = await fetch("/production/readiness");
+          renderReadiness("production-readiness", "Production readiness", await response.json());
+        } catch (error) {
+          document.getElementById("production-readiness").innerHTML = `<strong>Production readiness failed</strong><p>${escapeHtml(error.message)}</p>`;
+        }
+      }
+
+      async function loadPilotReadiness() {
+        try {
+          const response = await fetch("/pilot/readiness");
+          renderReadiness("pilot-readiness", "Pilot readiness", await response.json());
+        } catch (error) {
+          document.getElementById("pilot-readiness").innerHTML = `<strong>Pilot readiness failed</strong><p>${escapeHtml(error.message)}</p>`;
+        }
+      }
+
+      async function postJsonAction(path, label, body = {}) {
+        const buttonStates = snapshotButtonStates();
+        buttonStates.forEach(({ button }) => {
+          button.disabled = true;
+        });
+        setNotice(`${label}...`, true);
+
+        try {
+          const response = await fetch(path, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          });
+          const result = await response.json();
+
+          if (!response.ok || result.ok === false) {
+            setNotice(`${label} failed: ${result.error || result.details || "Unknown error"}`, true);
+            return;
+          }
+
+          if (path === "/sender/twilio-whatsapp/run" && Array.isArray(result.results) && result.results.length === 0) {
+            setNotice("No provider-ready WhatsApp messages to send.");
+          } else if (path === "/sender/twilio-whatsapp/sync-status") {
+            setNotice(`Checked delivery for ${Number(result.checked) || 0} provider message${Number(result.checked) === 1 ? "" : "s"}.`);
+          } else {
+            setNotice(`${label} complete.`);
+          }
+          await loadDashboard(false);
+        } catch (error) {
+          setNotice(`${label} failed: ${error.message}`, true);
+        } finally {
+          restoreButtonStates(buttonStates);
+          renderRecoveryQueue();
+          await loadTwilioStatus();
+        }
+      }
+
+      async function postShopifyAction(path, label, successMessage) {
+        const buttonStates = snapshotButtonStates();
+        buttonStates.forEach(({ button }) => {
+          button.disabled = true;
+        });
+        setNotice(`${label}...`, true);
+
+        try {
+          const response = await fetch(path, { method: "POST" });
+          const result = await response.json();
+
+          if (!response.ok || result.ok === false) {
+            setNotice(`${label} failed: ${result.error || result.details || result.result?.reason || "Unknown error"}`, true);
+            return;
+          }
+
+          setNotice(successMessage(result));
+          await loadDashboard(false);
+        } catch (error) {
+          setNotice(`${label} failed: ${error.message}`, true);
+        } finally {
+          restoreButtonStates(buttonStates);
+          renderRecoveryQueue();
+          await loadShopifyStatus();
+        }
+      }
+
+      function registerShopifyWebhooks() {
+        const shop = activeShopDomain();
+        if (!shop) {
+          setNotice("Register webhooks failed: no Shopify store is connected.", true);
+          return;
+        }
+
+        postShopifyAction(
+          `/auth/shopify/register-webhooks?shop=${encodeURIComponent(shop)}`,
+          "Register Shopify webhooks",
+          () => "Shopify webhook registration checked."
+        );
+      }
+
+      function importShopifyCheckouts() {
+        const shop = activeShopDomain();
+        if (!shop) {
+          setNotice("Import checkouts failed: no Shopify store is connected.", true);
+          return;
+        }
+
+        postShopifyAction(
+          `/shopify/abandoned-checkouts/import?shop=${encodeURIComponent(shop)}&limit=5`,
+          "Import abandoned checkouts",
+          (result) => `Imported ${result.imported || 0} abandoned checkout${result.imported === 1 ? "" : "s"}.`
+        );
+      }
+
+      function importShopifyOrders() {
+        const shop = activeShopDomain();
+        if (!shop) {
+          setNotice("Import orders failed: no Shopify store is connected.", true);
+          return;
+        }
+
+        postShopifyAction(
+          `/shopify/orders/import?shop=${encodeURIComponent(shop)}&limit=5`,
+          "Import orders",
+          (result) => `Imported ${result.imported || 0} order${result.imported === 1 ? "" : "s"}.`
+        );
+      }
+
+      async function postAction(path, label) {
+        const buttonStates = snapshotButtonStates();
+        buttonStates.forEach(({ button }) => {
+          button.disabled = true;
+        });
+        setNotice(`${label}...`, true);
+
+        try {
+          const response = await fetch(path, { method: "POST" });
+          const result = await response.json();
+
+          if (!response.ok || result.ok === false) {
+            setNotice(`${label} failed: ${result.error || "Unknown error"}`, true);
+            return;
+          }
+
+          setNotice(`${label} complete.`);
+          await loadDashboard(false);
+        } catch (error) {
+          setNotice(`${label} failed: ${error.message}`, true);
+        } finally {
+          restoreButtonStates(buttonStates);
+          renderRecoveryQueue();
+        }
+      }
+
+      function renderAudit() {
+        document.getElementById("audits").innerHTML = DEMO_AUDITS.map((item) => `
+          <div class="audit-item">
+            <strong>${escapeHtml(item)}</strong>
+          </div>
+        `).join("");
+      }
+
+      function renderHiddenBackendTables(data) {
+        document.getElementById("messages").innerHTML = (data?.messages || []).map((message) => `
+          <tr>
+            <td>${escapeHtml(message.message_id)}</td>
+            <td>${escapeHtml(message.customer_name)}</td>
+            <td>${escapeHtml(statusLabel(message.status))}</td>
+            <td>${escapeHtml(message.message_preview)}</td>
+          </tr>
+        `).join("");
+        document.getElementById("carts").innerHTML = (data?.carts || []).map((cart) => `
+          <tr>
+            <td>${escapeHtml(cart.cart_id)}</td>
+            <td>${escapeHtml(cart.customer_name)}</td>
+            <td>${money(cart.cart_value, cart.currency || "EUR")}</td>
+            <td>${escapeHtml(statusLabel(cart.status))}</td>
+          </tr>
+        `).join("");
+        document.getElementById("conversions").innerHTML = (data?.conversions || []).map((conversion) => `
+          <tr>
+            <td>${escapeHtml(conversion.order_id)}</td>
+            <td>${escapeHtml(conversion.cart_id)}</td>
+            <td>${money(conversion.recovered_revenue, conversion.currency || "EUR")}</td>
+          </tr>
+        `).join("");
+      }
+
+      async function loadDashboard(showNotice = true) {
+        renderRecoveryQueue();
+        renderAudit();
+        document.getElementById("metric-carts").textContent = "18";
+        document.getElementById("metric-messages").textContent = "9";
+        document.getElementById("metric-conversions").textContent = "3";
+        document.getElementById("metric-revenue").textContent = "€742";
+        document.getElementById("last-synced").textContent = "Last synced: demo data";
+
+        try {
+          const response = await fetch("/api/dashboard");
+          currentDashboard = await response.json();
+          applySettingsFromDashboard(currentDashboard);
+          renderHiddenBackendTables(currentDashboard);
+
+          if (showInternalControls) {
+            await loadAutomationStatus();
+            await loadShopifyStatus();
+            await loadTwilioStatus();
+            await loadProductionReadiness();
+            await loadPilotReadiness();
+          }
+
+          if (showNotice) {
+            setNotice("RecoverPilot demo data refreshed.");
+          }
+        } catch (error) {
+          if (showNotice) {
+            setNotice("Demo view loaded with the prepared Salanida pilot data.");
+          }
+        }
+      }
+
+      document.getElementById("refresh").addEventListener("click", () => loadDashboard(true));
+      document.getElementById("save-settings").addEventListener("click", saveSettings);
+      document.getElementById("edit-message-library").addEventListener("click", () => {
+        const editor = document.getElementById("settings-editor");
+        editor.classList.toggle("open");
+        document.getElementById("edit-message-library").textContent = editor.classList.contains("open")
+          ? "Close Message Library"
+          : "Edit Message Library";
+      });
+      if (showInternalControls) {
+        document.getElementById("integration-card").hidden = false;
+        document.getElementById("integration-card").classList.add("visible");
+        document.getElementById("shopify-check-data").addEventListener("click", async () => {
+          setNotice("Checking Shopify data path...", true);
+          await loadShopifyStatus();
+          setNotice("Shopify data path checked.");
+        });
+        document.getElementById("shopify-register-webhooks").addEventListener("click", registerShopifyWebhooks);
+        document.getElementById("shopify-import-checkouts").addEventListener("click", importShopifyCheckouts);
+        document.getElementById("shopify-import-orders").addEventListener("click", importShopifyOrders);
+        document.getElementById("twilio-test-send").addEventListener("click", () => {
+          postJsonAction("/sender/twilio-whatsapp/test", "Twilio sandbox test", {
+            body: "RecoverPilot WhatsApp sandbox test."
+          });
+        });
+        document.getElementById("twilio-run-send").addEventListener("click", () => {
+          postJsonAction("/sender/twilio-whatsapp/run", "Provider queue send");
+        });
+        document.getElementById("twilio-sync-status").addEventListener("click", () => {
+          postJsonAction("/sender/twilio-whatsapp/sync-status", "Check provider delivery");
+        });
+      }
+
+      document.getElementById("search").addEventListener("input", renderRecoveryQueue);
+      document.querySelectorAll("[data-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeQueueFilter = button.dataset.filter;
+          document.querySelectorAll("[data-filter]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          renderRecoveryQueue();
+        });
+      });
+      document.querySelectorAll("[data-page]").forEach((button) => {
+        button.addEventListener("click", () => {
+          activePage = Number(button.dataset.page);
+          document.querySelectorAll("[data-page]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          setNotice(activePage === 1
+            ? "Showing the priority Salanida pilot queue."
+            : `Page ${activePage} selected. This private pilot keeps the four review carts pinned for the demo.`
+          );
+        });
+      });
+      document.getElementById("recovery-queue").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-queue-action]");
+        if (!button) return;
+
+        if (button.dataset.queueAction === "copy") {
+          copyRecoveryMessage(button.dataset.rowId);
+        }
+
+        if (button.dataset.queueAction === "view") {
+          openDetailModal(button.dataset.rowId);
+        }
+
+        if (button.dataset.queueAction === "mark-sent") {
+          markManualSent(button.dataset.rowId);
+        }
+      });
+      document.getElementById("detail-body").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-modal-action]");
+        if (!button) return;
+
+        if (button.dataset.modalAction === "copy") {
+          copyRecoveryMessage(button.dataset.rowId);
+        }
+
+        if (button.dataset.modalAction === "mark-sent") {
+          markManualSent(button.dataset.rowId);
+        }
+      });
+      document.getElementById("modal-close").addEventListener("click", closeDetailModal);
+      document.getElementById("request-pilot").addEventListener("click", openPilotSetupModal);
+      document.getElementById("pilot-setup-close").addEventListener("click", closePilotSetupModal);
+      document.getElementById("pilot-setup-close-body").addEventListener("click", closePilotSetupModal);
+      document.getElementById("detail-modal").addEventListener("click", (event) => {
+        if (event.target.id === "detail-modal") {
+          closeDetailModal();
+        }
+      });
+      document.getElementById("pilot-setup-modal").addEventListener("click", (event) => {
+        if (event.target.id === "pilot-setup-modal") {
+          closePilotSetupModal();
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeDetailModal();
+          closePilotSetupModal();
+        }
+      });
+      document.querySelectorAll("[data-action]").forEach((button) => {
+        button.addEventListener("click", () => {
+          postAction(button.dataset.action, button.dataset.label);
+        });
+      });
+      if (showInternalControls) {
+        document.getElementById("dev-controls").classList.add("visible");
+        document.getElementById("dev-controls").setAttribute("open", "");
+      }
+
+      loadDashboard();
+    </script>
+  </body>
+</html>

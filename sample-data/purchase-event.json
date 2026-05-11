@@ -1,0 +1,10 @@
+{
+  "event_type": "purchase",
+  "event_id": "evt_purchase_demo_001",
+  "store_id": "store_demo_fashion_001",
+  "cart_id": "cart_demo_001",
+  "order_id": "order_demo_001",
+  "order_value": 128.5,
+  "currency": "USD",
+  "purchased_at": "2026-04-27T11:05:00Z"
+}

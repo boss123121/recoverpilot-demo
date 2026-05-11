@@ -1,0 +1,24 @@
+# Local environment secrets
+.env
+.env.*
+
+# Runtime database and temporary state
+data/
+
+# Local-only project notes and unrelated experiments
+docs/
+organ-donation-ethics-site/
+build-blueprint.md
+deep-research-report.md
+
+# Local runtime logs
+*.log
+
+# Node logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+Thumbs.db
+.DS_Store

@@ -1,0 +1,37 @@
+{
+  "event_type": "abandoned_cart",
+  "event_id": "evt_demo_no_consent_001",
+  "store": {
+    "store_id": "store_demo_fashion_001",
+    "store_name": "Demo Fashion Store",
+    "store_domain": "demo-fashion-store.myshopify.com"
+  },
+  "customer": {
+    "customer_id": "cus_demo_no_consent_001",
+    "first_name": "Lina",
+    "phone": "+10000000001",
+    "email": "lina@example.com",
+    "whatsapp_consent": false
+  },
+  "cart": {
+    "cart_id": "cart_demo_no_consent_001",
+    "checkout_url": "https://demo-fashion-store.com/checkouts/cart_demo_no_consent_001",
+    "currency": "USD",
+    "cart_value": 74,
+    "items": [
+      {
+        "product_id": "prod_top_001",
+        "product_name": "Ivory Linen Top",
+        "quantity": 1,
+        "price": 74
+      }
+    ],
+    "abandoned_at": "2026-04-26T10:20:00Z",
+    "status": "abandoned"
+  },
+  "campaign": {
+    "channel": "whatsapp",
+    "delay_minutes": 60,
+    "max_messages_per_cart": 1
+  }
+}

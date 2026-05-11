@@ -1,0 +1,43 @@
+{
+  "event_type": "abandoned_cart",
+  "event_id": "evt_demo_001",
+  "store": {
+    "store_id": "store_demo_fashion_001",
+    "store_name": "Demo Fashion Store",
+    "store_domain": "demo-fashion-store.myshopify.com"
+  },
+  "customer": {
+    "customer_id": "cus_demo_001",
+    "first_name": "Maya",
+    "phone": "+10000000000",
+    "email": "maya@example.com",
+    "whatsapp_consent": true
+  },
+  "cart": {
+    "cart_id": "cart_demo_001",
+    "checkout_url": "https://demo-fashion-store.com/checkouts/cart_demo_001",
+    "currency": "USD",
+    "cart_value": 128.5,
+    "items": [
+      {
+        "product_id": "prod_dress_001",
+        "product_name": "Black Satin Midi Dress",
+        "quantity": 1,
+        "price": 89.0
+      },
+      {
+        "product_id": "prod_belt_001",
+        "product_name": "Gold Buckle Belt",
+        "quantity": 1,
+        "price": 39.5
+      }
+    ],
+    "abandoned_at": "2026-04-26T10:00:00Z",
+    "status": "abandoned"
+  },
+  "campaign": {
+    "channel": "whatsapp",
+    "delay_minutes": 60,
+    "max_messages_per_cart": 1
+  }
+}

@@ -1,0 +1,2028 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RecoverPilot - Intelligent WhatsApp Cart Recovery for Fashion Brands</title>
+  <meta name="description" content="RecoverPilot helps fashion and lifestyle brands recover abandoned carts through intelligent WhatsApp workflows, recovery scoring, message angles, and honest revenue attribution.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --bg-soft: #fbfaf7;
+      --ink: #08111f;
+      --muted: #607088;
+      --line: rgba(13, 27, 47, 0.11);
+      --blue: #2e49f2;
+      --blue-deep: #1726a7;
+      --cobalt: #006dff;
+      --green: #0f9f6e;
+      --green-soft: #def8ec;
+      --amber: #b96b12;
+      --amber-soft: #fff0d7;
+      --red: #cf2e3f;
+      --red-soft: #ffe5e8;
+      --violet-soft: #eeecff;
+      --panel: rgba(255, 255, 255, 0.82);
+      --shadow: 0 26px 70px rgba(10, 20, 38, 0.14);
+      --shadow-strong: 0 32px 90px rgba(16, 28, 62, 0.22);
+      --radius: 30px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #fbf8f1 0%, #f6f3ee 34%, #f8f7f3 72%, #ffffff 100%);
+      font-family: Inter, "Plus Jakarta Sans", Arial, sans-serif;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1180px, calc(100% - 40px));
+      min-height: 66px;
+      padding: 10px 12px 10px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 20px 60px rgba(15, 24, 45, 0.11);
+      backdrop-filter: blur(18px);
+      transform: translateX(-50%);
+    }
+
+    .brand {
+      display: inline-flex;
+      gap: 11px;
+      align-items: center;
+      min-width: 150px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, #5038f2 0%, #1f7aff 100%);
+      box-shadow: 0 14px 28px rgba(46, 73, 242, 0.28);
+      font-weight: 900;
+    }
+
+    .brand-name {
+      display: grid;
+      line-height: 1.05;
+    }
+
+    .brand-name strong {
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .brand-name span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #43516a;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .nav-links a {
+      transition: color 160ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid rgba(13, 25, 49, 0.12);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 9px 24px rgba(13, 25, 49, 0.08);
+      font-size: 13px;
+      font-weight: 850;
+      white-space: nowrap;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(13, 25, 49, 0.13);
+    }
+
+    .btn-primary {
+      border-color: rgba(45, 72, 242, 0.45);
+      background:
+        linear-gradient(135deg, #3946f2 0%, #1277ff 100%);
+      color: #fff;
+      box-shadow: 0 18px 40px rgba(46, 73, 242, 0.28);
+    }
+
+    .btn-secondary {
+      color: #21304d;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 960px;
+      padding: 154px 24px 88px;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      content: "";
+      background:
+        radial-gradient(circle at 25% 15%, rgba(46, 73, 242, 0.14), transparent 28%),
+        linear-gradient(130deg, rgba(255, 255, 255, 0.82), rgba(238, 242, 255, 0.34) 48%, rgba(255, 248, 235, 0.62));
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(540px, 1.08fr);
+      gap: 42px;
+      align-items: center;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      width: fit-content;
+      min-height: 34px;
+      padding: 0 13px;
+      border: 1px solid rgba(46, 73, 242, 0.16);
+      border-radius: 999px;
+      color: #2539b3;
+      background: rgba(255, 255, 255, 0.68);
+      box-shadow: 0 10px 30px rgba(46, 73, 242, 0.09);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .eyebrow::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(15, 159, 110, 0.12);
+      content: "";
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 840px;
+      margin-top: 28px;
+      font-family: "Plus Jakarta Sans", Inter, Arial, sans-serif;
+      font-size: 74px;
+      line-height: 0.96;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin-top: 28px;
+      color: #52627a;
+      font-size: 19px;
+      line-height: 1.75;
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 34px;
+    }
+
+    .hero-actions .btn {
+      min-height: 52px;
+      padding: 0 24px;
+      font-size: 14px;
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 42px;
+    }
+
+    .proof-item {
+      display: grid;
+      gap: 4px;
+      min-width: 134px;
+    }
+
+    .proof-item strong {
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .proof-item span {
+      color: #65758e;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .hero-scene {
+      position: relative;
+      min-height: 690px;
+      perspective: 1700px;
+    }
+
+    .hero-board {
+      position: absolute;
+      top: 34px;
+      right: -18px;
+      width: 730px;
+      min-height: 526px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 255, 0.86));
+      box-shadow: var(--shadow-strong);
+      transform: rotateY(-12deg) rotateX(5deg) rotateZ(-2deg);
+      transform-origin: center;
+    }
+
+    .hero-board::before {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background:
+        linear-gradient(115deg, rgba(46, 73, 242, 0.12), transparent 38%),
+        linear-gradient(290deg, rgba(15, 159, 110, 0.08), transparent 42%);
+    }
+
+    .board-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      padding: 18px 22px;
+      border-bottom: 1px solid rgba(13, 27, 47, 0.08);
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    .board-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .board-title strong {
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .board-title span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .board-tabs {
+      display: flex;
+      gap: 7px;
+    }
+
+    .tab {
+      min-height: 28px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #5f6d83;
+      background: #eef2f8;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .tab.active {
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .queue-head {
+      display: grid;
+      grid-template-columns: 1.1fr 0.74fr 0.72fr 0.68fr 1.2fr 0.82fr;
+      padding: 17px 22px 10px;
+      color: #7b8798;
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .queue-row {
+      display: grid;
+      grid-template-columns: 1.1fr 0.74fr 0.72fr 0.68fr 1.2fr 0.82fr;
+      align-items: center;
+      margin: 10px 14px;
+      padding: 15px 8px;
+      border: 1px solid rgba(13, 27, 47, 0.08);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 14px 30px rgba(24, 36, 70, 0.08);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .queue-row.featured {
+      border-color: rgba(46, 73, 242, 0.24);
+      background:
+        linear-gradient(90deg, rgba(246, 248, 255, 0.95), rgba(255, 255, 255, 0.82));
+      box-shadow: 0 20px 40px rgba(46, 73, 242, 0.12);
+    }
+
+    .customer {
+      display: grid;
+      gap: 3px;
+    }
+
+    .customer span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-height: 25px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .pill.green {
+      color: #056847;
+      background: var(--green-soft);
+    }
+
+    .pill.amber {
+      color: var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .pill.blue {
+      color: #1736cb;
+      background: #e4e9ff;
+    }
+
+    .mini-message {
+      color: #344153;
+      font-size: 10px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .mini-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .mini-button {
+      display: inline-grid;
+      place-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 10px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .mini-button.secondary {
+      border: 1px solid rgba(46, 73, 242, 0.2);
+      color: var(--blue-deep);
+      background: #fff;
+    }
+
+    .hero-phone {
+      position: absolute;
+      right: 34px;
+      bottom: 16px;
+      width: 238px;
+      min-height: 392px;
+      border: 9px solid #111827;
+      border-radius: 38px;
+      background: #f6f8fb;
+      box-shadow: 0 34px 70px rgba(7, 12, 27, 0.26);
+      transform: rotateY(-18deg) rotateX(7deg) rotateZ(4deg);
+    }
+
+    .phone-top {
+      display: grid;
+      gap: 2px;
+      padding: 22px 18px 13px;
+      border-bottom: 1px solid rgba(13, 27, 47, 0.08);
+      background: #fff;
+      border-radius: 28px 28px 0 0;
+    }
+
+    .phone-top strong {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .phone-top span {
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .bubble {
+      margin: 16px 14px 0;
+      padding: 13px;
+      border-radius: 18px 18px 18px 6px;
+      background: #fff;
+      box-shadow: 0 10px 20px rgba(14, 24, 44, 0.08);
+      color: #263145;
+      font-size: 11px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .bubble.reply {
+      margin-left: 58px;
+      border-radius: 18px 18px 6px 18px;
+      color: #043b2c;
+      background: #dcf8e7;
+    }
+
+    .floating-score {
+      position: absolute;
+      left: 34px;
+      bottom: 74px;
+      width: 258px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      transform: rotateZ(-5deg);
+    }
+
+    .score-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .score-ring {
+      display: grid;
+      place-items: center;
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      background:
+        conic-gradient(var(--blue) 0 88%, #e3e8f5 88% 100%);
+      box-shadow: inset 0 0 0 8px #fff;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .score-copy {
+      display: grid;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .score-copy span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .score-copy strong {
+      font-size: 17px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .signal {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: #3c4a61;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .signal b {
+      color: var(--green);
+    }
+
+    .section {
+      position: relative;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 104px 0;
+    }
+
+    .section-kicker {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin-top: 15px;
+      font-family: "Plus Jakarta Sans", Inter, Arial, sans-serif;
+      font-size: 50px;
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .section-lede {
+      max-width: 670px;
+      margin-top: 20px;
+      color: #59677d;
+      font-size: 18px;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .problem-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 42px;
+      align-items: start;
+    }
+
+    .problem-stack {
+      display: grid;
+      gap: 16px;
+      padding-top: 26px;
+    }
+
+    .problem-line {
+      position: relative;
+      display: grid;
+      grid-template-columns: 60px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+      padding: 23px 0;
+      border-top: 1px solid rgba(13, 27, 47, 0.11);
+    }
+
+    .problem-line:first-child {
+      border-top: 0;
+    }
+
+    .problem-index {
+      color: #bdc4d3;
+      font-size: 31px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .problem-line h3 {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .problem-line p {
+      max-width: 520px;
+      margin-top: 7px;
+      color: #627187;
+      font-size: 14px;
+      line-height: 1.7;
+      font-weight: 650;
+    }
+
+    .pain-panel {
+      position: sticky;
+      top: 112px;
+      overflow: hidden;
+      min-height: 560px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(150deg, rgba(11, 17, 34, 0.94), rgba(20, 32, 72, 0.92));
+      box-shadow: var(--shadow-strong);
+      color: #fff;
+    }
+
+    .pain-panel::after {
+      position: absolute;
+      inset: auto -10% -18% 28%;
+      height: 220px;
+      content: "";
+      background:
+        linear-gradient(110deg, rgba(46, 73, 242, 0.5), rgba(15, 159, 110, 0.22));
+      filter: blur(42px);
+      transform: rotate(-8deg);
+    }
+
+    .pain-note {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      font-size: 38px;
+      line-height: 1.04;
+      font-weight: 900;
+    }
+
+    .pain-sub {
+      position: relative;
+      z-index: 1;
+      max-width: 370px;
+      margin-top: 18px;
+      color: #b9c4da;
+      font-size: 15px;
+      line-height: 1.75;
+      font-weight: 650;
+    }
+
+    .hesitation-map {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 12px;
+      margin-top: 42px;
+    }
+
+    .hesitation {
+      min-height: 92px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hesitation:nth-child(2) {
+      margin-top: 44px;
+    }
+
+    .hesitation:nth-child(3) {
+      margin-top: -18px;
+    }
+
+    .hesitation strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .hesitation span {
+      display: block;
+      margin-top: 8px;
+      color: #b7c4db;
+      font-size: 11px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .system-section {
+      width: 100%;
+      margin-top: 18px;
+      padding: 112px 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(237, 241, 255, 0.55));
+    }
+
+    .system-inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .flow-shell {
+      position: relative;
+      margin-top: 54px;
+      padding: 46px;
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      border-radius: 40px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(245, 248, 255, 0.78));
+      box-shadow: var(--shadow);
+    }
+
+    .flow-path {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 176px;
+      padding: 18px 16px;
+      border: 1px solid rgba(13, 27, 47, 0.09);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 18px 42px rgba(18, 33, 71, 0.08);
+    }
+
+    .flow-step:nth-child(even) {
+      transform: translateY(28px);
+    }
+
+    .flow-step::after {
+      position: absolute;
+      top: 50%;
+      right: -15px;
+      z-index: 2;
+      width: 18px;
+      height: 2px;
+      background: rgba(46, 73, 242, 0.22);
+      content: "";
+    }
+
+    .flow-step:last-child::after {
+      display: none;
+    }
+
+    .flow-number {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 11px;
+      color: #fff;
+      background: var(--blue);
+      box-shadow: 0 14px 28px rgba(46, 73, 242, 0.24);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-top: 17px;
+      font-size: 14px;
+      line-height: 1.24;
+      font-weight: 900;
+    }
+
+    .flow-step span {
+      display: block;
+      margin-top: 9px;
+      color: #657187;
+      font-size: 11px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .difference {
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .difference-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 580px;
+      padding: 34px;
+      border-radius: 34px;
+      background:
+        linear-gradient(150deg, #ffffff, #f6f8ff);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(13, 27, 47, 0.08);
+    }
+
+    .comparison-row:last-child {
+      border-bottom: 0;
+    }
+
+    .comparison-row strong {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .comparison-row span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .showcase {
+      display: grid;
+      gap: 34px;
+      margin-top: 58px;
+    }
+
+    .showcase-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 34px;
+      align-items: center;
+      min-height: 490px;
+      overflow: hidden;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: 38px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(245, 248, 255, 0.76));
+      box-shadow: var(--shadow);
+    }
+
+    .showcase-item:nth-child(even) {
+      grid-template-columns: 1.18fr 0.82fr;
+      background:
+        linear-gradient(135deg, rgba(248, 250, 255, 0.92), rgba(255, 255, 255, 0.78));
+    }
+
+    .showcase-item:nth-child(even) .showcase-copy {
+      order: 2;
+    }
+
+    .showcase-item:nth-child(even) .showcase-visual {
+      order: 1;
+    }
+
+    .showcase-copy {
+      position: relative;
+      z-index: 2;
+      padding: 22px;
+    }
+
+    .showcase-copy small {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .showcase-copy h3 {
+      margin-top: 14px;
+      font-size: 36px;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+
+    .showcase-copy p {
+      margin-top: 16px;
+      color: #5f6f86;
+      font-size: 16px;
+      line-height: 1.75;
+      font-weight: 650;
+    }
+
+    .showcase-points {
+      display: grid;
+      gap: 11px;
+      margin-top: 24px;
+    }
+
+    .showcase-points span {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: #29384f;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .showcase-points span::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--green);
+      content: "";
+    }
+
+    .showcase-visual {
+      position: relative;
+      min-height: 420px;
+    }
+
+    .mock-window {
+      position: absolute;
+      inset: 18px 0 18px 0;
+      overflow: hidden;
+      border: 1px solid rgba(13, 27, 47, 0.1);
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 26px 70px rgba(11, 25, 56, 0.16);
+    }
+
+    .mock-window.offset {
+      inset: 54px 42px 0 0;
+      transform: rotate(-2deg);
+    }
+
+    .mock-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 0 18px;
+      border-bottom: 1px solid rgba(13, 27, 47, 0.08);
+      background: #f8fafc;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #cad3e1;
+    }
+
+    .mock-body {
+      padding: 18px;
+    }
+
+    .mock-table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mock-table-row {
+      display: grid;
+      grid-template-columns: 1.1fr 0.74fr 0.75fr 0.86fr 0.9fr;
+      gap: 10px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(13, 27, 47, 0.08);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(13, 27, 47, 0.05);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .mock-table-row.head {
+      padding: 10px 14px;
+      color: #778399;
+      background: #f7f9fc;
+      box-shadow: none;
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .angle-deck {
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .angle-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid rgba(13, 27, 47, 0.08);
+      border-radius: 21px;
+      background:
+        linear-gradient(135deg, #ffffff, #f7f9ff);
+      box-shadow: 0 15px 34px rgba(13, 27, 47, 0.08);
+    }
+
+    .angle-score {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      color: #fff;
+      background: var(--blue);
+      font-weight: 900;
+    }
+
+    .angle-card strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .angle-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .audit-timeline {
+      display: grid;
+      gap: 16px;
+      padding: 26px;
+    }
+
+    .audit-event {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 13px;
+    }
+
+    .audit-event::before {
+      position: absolute;
+      top: 26px;
+      bottom: -18px;
+      left: 13px;
+      width: 2px;
+      background: #dfe5ef;
+      content: "";
+    }
+
+    .audit-event:last-child::before {
+      display: none;
+    }
+
+    .audit-dot {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--blue);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .audit-copy {
+      padding-bottom: 12px;
+    }
+
+    .audit-copy strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .audit-copy span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .learning-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .learning-card {
+      min-height: 124px;
+      padding: 18px;
+      border: 1px solid rgba(13, 27, 47, 0.08);
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 14px 28px rgba(13, 27, 47, 0.06);
+    }
+
+    .learning-card.big {
+      grid-column: span 2;
+      min-height: 154px;
+      background:
+        linear-gradient(135deg, #0b1222, #142250);
+      color: #fff;
+    }
+
+    .learning-card small {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .learning-card.big small {
+      color: #b7c6ef;
+    }
+
+    .learning-card strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .learning-card span {
+      display: block;
+      margin-top: 9px;
+      color: #627087;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .learning-card.big span {
+      color: #c7d4ee;
+    }
+
+    .partner-network {
+      position: relative;
+      min-height: 420px;
+      padding: 36px;
+    }
+
+    .network-node {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 150px;
+      height: 150px;
+      border: 1px solid rgba(13, 27, 47, 0.08);
+      border-radius: 34px;
+      background: #fff;
+      box-shadow: 0 22px 52px rgba(13, 27, 47, 0.13);
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .network-node span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .network-node.main {
+      top: 118px;
+      left: 50%;
+      color: #fff;
+      background:
+        linear-gradient(135deg, #3946f2, #0b78ff);
+      transform: translateX(-50%);
+    }
+
+    .network-node.one {
+      top: 42px;
+      left: 42px;
+    }
+
+    .network-node.two {
+      right: 46px;
+      top: 58px;
+    }
+
+    .network-node.three {
+      bottom: 32px;
+      left: 98px;
+    }
+
+    .network-node.four {
+      right: 92px;
+      bottom: 36px;
+    }
+
+    .value-band {
+      position: relative;
+      width: 100%;
+      padding: 110px 0;
+      background:
+        linear-gradient(135deg, #0a1120, #101c3f 62%, #0b1430);
+      color: #fff;
+    }
+
+    .value-band::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, rgba(46, 73, 242, 0.2), transparent 35%, rgba(15, 159, 110, 0.11));
+    }
+
+    .value-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 46px;
+      align-items: start;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .value-inner .section-kicker {
+      color: #9eb4ff;
+    }
+
+    .value-inner .section-lede {
+      color: #b7c3da;
+    }
+
+    .outcomes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .outcome {
+      min-height: 180px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+    }
+
+    .outcome strong {
+      display: block;
+      font-size: 29px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .outcome span {
+      display: block;
+      margin-top: 14px;
+      color: #c3cde0;
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    .final-cta {
+      position: relative;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 112px 0 72px;
+    }
+
+    .cta-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 480px;
+      padding: 66px;
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      border-radius: 42px;
+      background:
+        linear-gradient(140deg, #ffffff, #f4f6ff 52%, #fff7ec);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .cta-panel::after {
+      position: absolute;
+      right: -60px;
+      bottom: -86px;
+      width: 520px;
+      height: 300px;
+      content: "";
+      background:
+        linear-gradient(115deg, rgba(46, 73, 242, 0.22), rgba(15, 159, 110, 0.16));
+      filter: blur(44px);
+      transform: rotate(-12deg);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+    }
+
+    .cta-content h2 {
+      font-family: "Plus Jakarta Sans", Inter, Arial, sans-serif;
+      font-size: 64px;
+      line-height: 0.98;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .cta-content p {
+      max-width: 620px;
+      margin-top: 22px;
+      color: #55647b;
+      font-size: 18px;
+      line-height: 1.75;
+      font-weight: 650;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .cta-actions .btn {
+      min-height: 52px;
+      padding: 0 24px;
+      font-size: 14px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+      color: #66758b;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    @media (max-width: 1120px) {
+      .nav-links {
+        display: none;
+      }
+
+      h1 {
+        font-size: 58px;
+      }
+
+      .hero-grid,
+      .problem-layout,
+      .difference,
+      .value-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-scene {
+        min-height: 640px;
+      }
+
+      .hero-board {
+        left: 50%;
+        right: auto;
+        width: min(730px, 100%);
+        transform: translateX(-50%) rotateY(-8deg) rotateX(4deg) rotateZ(-1deg);
+      }
+
+      .pain-panel {
+        position: relative;
+        top: 0;
+      }
+
+      .flow-path {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .flow-step:nth-child(even) {
+        transform: none;
+      }
+
+      .flow-step::after {
+        display: none;
+      }
+
+      .showcase-item,
+      .showcase-item:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .showcase-item:nth-child(even) .showcase-copy,
+      .showcase-item:nth-child(even) .showcase-visual {
+        order: initial;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        top: 10px;
+        width: calc(100% - 20px);
+        border-radius: 24px;
+      }
+
+      .brand-name span,
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 124px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .hero-copy,
+      .section-lede,
+      .cta-content p {
+        font-size: 16px;
+      }
+
+      .hero-scene {
+        min-height: 720px;
+      }
+
+      .hero-board {
+        top: 18px;
+        width: 640px;
+        transform: translateX(-43%) scale(0.78) rotateZ(-1deg);
+        transform-origin: top center;
+      }
+
+      .hero-phone {
+        right: 12px;
+        bottom: 20px;
+        transform: scale(0.82) rotateZ(3deg);
+        transform-origin: bottom right;
+      }
+
+      .floating-score {
+        left: 4px;
+        bottom: 72px;
+        transform: scale(0.85) rotateZ(-4deg);
+        transform-origin: bottom left;
+      }
+
+      .section,
+      .system-inner,
+      .value-inner,
+      .final-cta,
+      .footer {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .section-title,
+      .cta-content h2 {
+        font-size: 36px;
+      }
+
+      .problem-line {
+        grid-template-columns: 42px 1fr;
+      }
+
+      .flow-shell,
+      .showcase-item,
+      .cta-panel {
+        padding: 22px;
+        border-radius: 28px;
+      }
+
+      .flow-path,
+      .outcomes,
+      .learning-visual {
+        grid-template-columns: 1fr;
+      }
+
+      .learning-card.big {
+        grid-column: auto;
+      }
+
+      .mock-table-row,
+      .mock-table-row.head {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="RecoverPilot home">
+        <span class="brand-mark">C</span>
+        <span class="brand-name">
+          <strong>RecoverPilot</strong>
+          <span>Recovery intelligence</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Page sections">
+        <a href="#problem">Problem</a>
+        <a href="#logic">Logic</a>
+        <a href="#different">Different</a>
+        <a href="#showcase">Product</a>
+        <a href="#results">Results</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="#showcase">See product</a>
+        <a class="btn btn-primary" href="#pilot">Join pilot</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <span class="eyebrow">Built for fashion recovery teams</span>
+            <h1 id="hero-title">Recover the right carts, with the right message, at the right time.</h1>
+            <p class="hero-copy">
+              RecoverPilot helps fashion and lifestyle brands recover abandoned carts through intelligent WhatsApp workflows, recovery scoring, and clear revenue attribution.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#pilot">Join Pilot</a>
+              <a class="btn btn-secondary" href="#logic">Explore the system</a>
+            </div>
+            <div class="hero-proof" aria-label="Product proof points">
+              <div class="proof-item">
+                <strong>1 queue</strong>
+                <span>for abandoned carts</span>
+              </div>
+              <div class="proof-item">
+                <strong>7 days</strong>
+                <span>attribution window</span>
+              </div>
+              <div class="proof-item">
+                <strong>2 modes</strong>
+                <span>manual or auto-send</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-scene" aria-label="RecoverPilot product preview">
+            <div class="hero-board">
+              <div class="board-top">
+                <div class="board-title">
+                  <strong>Recovery Queue</strong>
+                  <span>Demo Fashion Store - 18 active abandoned carts</span>
+                </div>
+                <div class="board-tabs">
+                  <span class="tab active">High</span>
+                  <span class="tab">Medium</span>
+                  <span class="tab">Blocked</span>
+                </div>
+              </div>
+              <div class="queue-head">
+                <span>Customer</span>
+                <span>Value</span>
+                <span>Score</span>
+                <span>Status</span>
+                <span>Message angle</span>
+                <span>Follow-up</span>
+              </div>
+              <div class="queue-row featured">
+                <div class="customer"><strong>Maya Chen</strong><span>Linen Dress, Size M</span></div>
+                <strong>RM220</strong>
+                <span class="pill blue">88</span>
+                <span class="pill amber">Review</span>
+                <span class="mini-message">Size reassurance: help choosing fit before checkout.</span>
+                <div class="mini-actions"><span class="mini-button">Send</span><span class="mini-button secondary">Audit</span></div>
+              </div>
+              <div class="queue-row">
+                <div class="customer"><strong>Aina R.</strong><span>Everyday Denim</span></div>
+                <strong>RM178</strong>
+                <span class="pill blue">74</span>
+                <span class="pill green">Eligible</span>
+                <span class="mini-message">Payment help: checkout stopped at payment step.</span>
+                <div class="mini-actions"><span class="mini-button">Send</span></div>
+              </div>
+              <div class="queue-row">
+                <div class="customer"><strong>Rachel S.</strong><span>Low stock knit set</span></div>
+                <strong>RM312</strong>
+                <span class="pill blue">91</span>
+                <span class="pill green">Auto</span>
+                <span class="mini-message">Stock reminder with honest inventory signal.</span>
+                <div class="mini-actions"><span class="mini-button secondary">View</span></div>
+              </div>
+            </div>
+
+            <div class="floating-score">
+              <div class="score-top">
+                <div class="score-ring">88</div>
+                <div class="score-copy">
+                  <span>Recovery Score</span>
+                  <strong>Fresh, high-value, size-based cart.</strong>
+                </div>
+              </div>
+              <div class="signal-list">
+                <div class="signal"><span>Consent</span><b>Verified</b></div>
+                <div class="signal"><span>Angle</span><b>Size reassurance</b></div>
+                <div class="signal"><span>Mode</span><b>Manual review</b></div>
+              </div>
+            </div>
+
+            <div class="hero-phone" aria-label="WhatsApp message preview">
+              <div class="phone-top">
+                <strong>WhatsApp Preview</strong>
+                <span>Prepared by RecoverPilot</span>
+              </div>
+              <div class="bubble">
+                Hi Maya, still thinking about the size? Your cart is saved here. Reply if you want help choosing the right fit.
+              </div>
+              <div class="bubble reply">
+                Is size M true to size?
+              </div>
+              <div class="bubble">
+                Yes, it fits slightly relaxed. I can share measurements before you complete checkout.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="problem" aria-labelledby="problem-title">
+        <div class="problem-layout">
+          <div>
+            <span class="section-kicker">The recovery problem</span>
+            <h2 class="section-title" id="problem-title">Most abandoned cart tools treat hesitation like a notification problem.</h2>
+            <p class="section-lede">
+              Fashion buyers hesitate for emotional and practical reasons. Size, fit, trust, delivery timing, price, and confidence all change what should happen next.
+            </p>
+          </div>
+          <div class="pain-panel">
+            <p class="pain-note">Sending more reminders is not the same as recovering more revenue.</p>
+            <p class="pain-sub">
+              RecoverPilot turns abandoned carts into decisions: who matters, what to say, whether it is safe to send, and whether the order should be counted as recovered.
+            </p>
+            <div class="hesitation-map">
+              <div class="hesitation"><strong>Fit uncertainty</strong><span>Size-based products need reassurance, not pressure.</span></div>
+              <div class="hesitation"><strong>Margin damage</strong><span>Discounts are useful sometimes, but expensive as a default.</span></div>
+              <div class="hesitation"><strong>Weak priority</strong><span>Merchants need to know which carts deserve action first.</span></div>
+              <div class="hesitation"><strong>No explanation</strong><span>Automation without audit makes revenue claims hard to trust.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="problem-stack">
+          <div class="problem-line">
+            <div class="problem-index">01</div>
+            <div>
+              <h3>Generic reminders miss the real reason customers hesitate.</h3>
+              <p>A dress abandoned after size selection is different from jeans abandoned at payment. RecoverPilot is designed to read the recovery context before recommending a message.</p>
+            </div>
+          </div>
+          <div class="problem-line">
+            <div class="problem-index">02</div>
+            <div>
+              <h3>Discount-first recovery trains customers to wait.</h3>
+              <p>RecoverPilot helps brands start with reassurance, help, trust, delivery timing, or product context before sacrificing margin.</p>
+            </div>
+          </div>
+          <div class="problem-line">
+            <div class="problem-index">03</div>
+            <div>
+              <h3>Most tools automate, but do not explain.</h3>
+              <p>RecoverPilot includes Decision Audit so merchants can see why a message was sent, blocked, failed, or credited as recovered revenue.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="system-section" id="logic" aria-labelledby="logic-title">
+        <div class="system-inner">
+          <span class="section-kicker">Product logic</span>
+          <h2 class="section-title" id="logic-title">A recovery operating layer, not another campaign sender.</h2>
+          <p class="section-lede">
+            RecoverPilot connects the cart, customer, message, safety decision, and order outcome into one clear recovery workflow.
+          </p>
+          <div class="flow-shell">
+            <div class="flow-path" aria-label="RecoverPilot recovery flow">
+              <div class="flow-step">
+                <div class="flow-number">1</div>
+                <strong>Abandoned Cart</strong>
+                <span>Shopify checkout enters the queue with customer, phone, value, product, and timing context.</span>
+              </div>
+              <div class="flow-step">
+                <div class="flow-number">2</div>
+                <strong>Recovery Score</strong>
+                <span>RecoverPilot prioritizes fresh, valuable, eligible carts and flags risky or blocked cases.</span>
+              </div>
+              <div class="flow-step">
+                <div class="flow-number">3</div>
+                <strong>Message Angle</strong>
+                <span>Size reassurance, payment help, delivery timing, trust, stock, or general reminder.</span>
+              </div>
+              <div class="flow-step">
+                <div class="flow-number">4</div>
+                <strong>Review or Auto-Send</strong>
+                <span>Manual Review Mode first, then template-based automation when safe.</span>
+              </div>
+              <div class="flow-step">
+                <div class="flow-number">5</div>
+                <strong>Decision Audit</strong>
+                <span>Every important action has a reason the merchant can inspect.</span>
+              </div>
+              <div class="flow-step">
+                <div class="flow-number">6</div>
+                <strong>Recovered Revenue</strong>
+                <span>Orders are credited only when attribution rules match honestly.</span>
+              </div>
+              <div class="flow-step">
+                <div class="flow-number">7</div>
+                <strong>Learning Insights</strong>
+                <span>Replies and conversions reveal what customers need before buying.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="different" aria-labelledby="different-title">
+        <div class="difference">
+          <div>
+            <span class="section-kicker">Why RecoverPilot is different</span>
+            <h2 class="section-title" id="different-title">Built for fashion recovery, where the message angle matters.</h2>
+            <p class="section-lede">
+              RecoverPilot does not compete by blasting more messages. It wins by making better recovery decisions and proving what happened.
+            </p>
+          </div>
+          <div class="difference-panel">
+            <div class="comparison-row">
+              <div><strong>Fashion-specific recovery context</strong><br><span>Size, fit, stock, event timing, material doubt, trust, and payment friction.</span></div>
+              <div class="mark">OK</div>
+            </div>
+            <div class="comparison-row">
+              <div><strong>Manual Review and Auto-Send</strong><br><span>Start with control, then automate only when consent, templates, and rules are ready.</span></div>
+              <div class="mark">OK</div>
+            </div>
+            <div class="comparison-row">
+              <div><strong>Honest attribution</strong><br><span>Revenue is credited when message timing, order matching, and attribution window agree.</span></div>
+              <div class="mark">OK</div>
+            </div>
+            <div class="comparison-row">
+              <div><strong>Objection learning</strong><br><span>Replies become insight: size concern, price concern, delivery timing, trust, or payment help.</span></div>
+              <div class="mark">OK</div>
+            </div>
+            <div class="comparison-row">
+              <div><strong>Future partner rewards</strong><br><span>After recovery works, RecoverPilot can help brands exchange customers through tracked rewards.</span></div>
+              <div class="mark">OK</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="showcase" aria-labelledby="showcase-title">
+        <span class="section-kicker">Product showcase</span>
+        <h2 class="section-title" id="showcase-title">Everything points back to the recovery decision.</h2>
+        <p class="section-lede">
+          A focused operating console for merchants who need to know what to recover next, what to say, and whether RecoverPilot truly helped.
+        </p>
+
+        <div class="showcase">
+          <article class="showcase-item">
+            <div class="showcase-copy">
+              <small>Recovery Queue</small>
+              <h3>An inbox for abandoned carts, not a generic analytics board.</h3>
+              <p>Operators see customer, phone, value, consent, priority, status, prepared message, and follow-up action in one focused queue.</p>
+              <div class="showcase-points">
+                <span>Prioritize carts by recovery potential</span>
+                <span>Keep blocked and failed carts visible</span>
+                <span>Move from review to send to recovered revenue</span>
+              </div>
+            </div>
+            <div class="showcase-visual">
+              <div class="mock-window">
+                <div class="mock-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <div class="mock-body">
+                  <div class="mock-table">
+                    <div class="mock-table-row head"><span>Customer</span><span>Value</span><span>Consent</span><span>Priority</span><span>Follow-up</span></div>
+                    <div class="mock-table-row"><strong>Maya</strong><span>RM220</span><span class="pill green">OK</span><span class="pill amber">High</span><span class="mini-button">Open WhatsApp</span></div>
+                    <div class="mock-table-row"><strong>Aina</strong><span>RM178</span><span class="pill green">OK</span><span class="pill blue">Medium</span><span class="mini-button secondary">Copy</span></div>
+                    <div class="mock-table-row"><strong>Lina</strong><span>RM74</span><span class="pill amber">Review</span><span class="pill blue">Low</span><span class="mini-button secondary">Audit</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="showcase-item">
+            <div class="showcase-copy">
+              <small>Message Angle Engine</small>
+              <h3>The first message should match the hesitation.</h3>
+              <p>RecoverPilot can recommend size reassurance, fit help, payment assistance, delivery timing, trust support, stock context, or a general reminder.</p>
+              <div class="showcase-points">
+                <span>Discount is no longer the default answer</span>
+                <span>Message logic follows cart context</span>
+                <span>Manual review keeps tone controlled</span>
+              </div>
+            </div>
+            <div class="showcase-visual">
+              <div class="mock-window offset">
+                <div class="mock-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <div class="angle-deck">
+                  <div class="angle-card"><div class="angle-score">88</div><div><strong>Size reassurance</strong><span>Dress, Size M, fresh cart, customer has consent.</span></div><span class="pill amber">Review</span></div>
+                  <div class="angle-card"><div class="angle-score">74</div><div><strong>Payment help</strong><span>Checkout stopped near payment with valid phone.</span></div><span class="pill green">Auto</span></div>
+                  <div class="angle-card"><div class="angle-score">66</div><div><strong>Delivery timing</strong><span>Eventwear category and time-sensitive product.</span></div><span class="pill blue">Template</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="showcase-item">
+            <div class="showcase-copy">
+              <small>Decision Audit</small>
+              <h3>Every send, block, failure, and revenue credit has a reason.</h3>
+              <p>RecoverPilot creates trust by showing why a cart was prioritized, why a message was allowed, and why revenue was or was not attributed.</p>
+              <div class="showcase-points">
+                <span>Explain safety gates and consent checks</span>
+                <span>Show why a sale was credited</span>
+                <span>Reduce black-box automation risk</span>
+              </div>
+            </div>
+            <div class="showcase-visual">
+              <div class="mock-window">
+                <div class="mock-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <div class="audit-timeline">
+                  <div class="audit-event"><div class="audit-dot">1</div><div class="audit-copy"><strong>Cart scored High</strong><span>Value above store average and abandoned 24 minutes ago.</span></div></div>
+                  <div class="audit-event"><div class="audit-dot">2</div><div class="audit-copy"><strong>Size reassurance selected</strong><span>Product has size variant and customer is new.</span></div></div>
+                  <div class="audit-event"><div class="audit-dot">3</div><div class="audit-copy"><strong>Manual review required</strong><span>High-value cart and first pilot mode is manual.</span></div></div>
+                  <div class="audit-event"><div class="audit-dot">4</div><div class="audit-copy"><strong>Revenue credited</strong><span>Purchase happened after message inside the attribution window.</span></div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="showcase-item">
+            <div class="showcase-copy">
+              <small>Learning Report</small>
+              <h3>Turn replies and conversions into better recovery decisions.</h3>
+              <p>Over time, RecoverPilot can reveal whether size reassurance, stock context, trust support, or payment help performs best for each category.</p>
+              <div class="showcase-points">
+                <span>Compare manual vs auto-send outcomes</span>
+                <span>Track objections by product category</span>
+                <span>Improve checkout and product pages from real hesitation data</span>
+              </div>
+            </div>
+            <div class="showcase-visual">
+              <div class="mock-window offset">
+                <div class="mock-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <div class="learning-visual">
+                  <div class="learning-card big"><small>This week</small><strong>Size reassurance recovered 6 orders</strong><span>Best for dresses, jeans, and activewear with size variants.</span></div>
+                  <div class="learning-card"><small>Top objection</small><strong>42%</strong><span>Size or fit concern</span></div>
+                  <div class="learning-card"><small>Best timing</small><strong>30-60m</strong><span>After checkout abandonment</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="showcase-item">
+            <div class="showcase-copy">
+              <small>Future vision</small>
+              <h3>Partner rewards can turn recovery into a customer-sharing network.</h3>
+              <p>After recovery is proven, RecoverPilot can help brands offer tracked rewards between partner stores and measure claims, redemptions, and partner revenue.</p>
+              <div class="showcase-points">
+                <span>Receipt-triggered partner offers</span>
+                <span>Claim and redemption tracking</span>
+                <span>Network effects after the core recovery loop works</span>
+              </div>
+            </div>
+            <div class="showcase-visual">
+              <div class="mock-window">
+                <div class="mock-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <div class="partner-network">
+                  <div class="network-node main">RecoverPilot<span>Reward logic</span></div>
+                  <div class="network-node one">Fashion<span>Origin store</span></div>
+                  <div class="network-node two">Beauty<span>Partner store</span></div>
+                  <div class="network-node three">Activewear<span>Partner store</span></div>
+                  <div class="network-node four">Accessories<span>Partner store</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="value-band" id="results" aria-labelledby="results-title">
+        <div class="value-inner">
+          <div>
+            <span class="section-kicker">Business value</span>
+            <h2 class="section-title" id="results-title">Recovery that improves with every cart.</h2>
+            <p class="section-lede">
+              RecoverPilot helps teams recover lost revenue now while building a clearer understanding of why shoppers hesitate.
+            </p>
+          </div>
+          <div class="outcomes">
+            <div class="outcome"><strong>Recover revenue</strong><span>Link follow-up messages to orders and show what was honestly recovered.</span></div>
+            <div class="outcome"><strong>Prioritize action</strong><span>Focus on carts with value, consent, timing, and recovery signals.</span></div>
+            <div class="outcome"><strong>Send smarter</strong><span>Use message angles that fit fashion buyer hesitation instead of default discounts.</span></div>
+            <div class="outcome"><strong>Learn faster</strong><span>Turn replies, objections, and conversions into better recovery playbooks.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta" id="pilot" aria-labelledby="cta-title">
+        <div class="cta-panel">
+          <div class="cta-content">
+            <span class="section-kicker">Pilot-ready recovery</span>
+            <h2 id="cta-title">Stop treating every abandoned cart the same. Start recovering them with logic.</h2>
+            <p>
+              RecoverPilot is preparing a focused pilot for fashion and lifestyle Shopify stores that want WhatsApp recovery with control, explanation, and attribution.
+            </p>
+            <div class="cta-actions">
+              <a class="btn btn-primary" href="mailto:hello@RecoverPilot.example?subject=RecoverPilot%20Pilot%20Demo">Book a Demo</a>
+              <a class="btn btn-secondary" href="mailto:hello@RecoverPilot.example?subject=Join%20RecoverPilot%20Pilot">Join Pilot</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>RecoverPilot - Intelligent cart recovery for fashion and lifestyle brands.</div>
+      <div class="footer-links">
+        <a href="#problem">Problem</a>
+        <a href="#logic">Product logic</a>
+        <a href="#pilot">Pilot</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
