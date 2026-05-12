@@ -1120,7 +1120,455 @@
         }
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: 640px) {
+        html,
+        body {
+          overflow-x: hidden;
+        }
+
+        body {
+          background:
+            linear-gradient(180deg, #ffffff 0, #f7f7fb 280px),
+            var(--bg);
+        }
+
+        .shell {
+          padding: 12px 10px 28px;
+        }
+
+        .topbar {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+          margin: -12px -10px 14px;
+          border-bottom: 1px solid var(--border);
+          padding: 12px 10px;
+        }
+
+        .brand-cluster {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 8px;
+          align-items: start;
+        }
+
+        .brand {
+          gap: 8px;
+        }
+
+        .brand-mark {
+          width: 34px;
+          height: 34px;
+          border-radius: 12px;
+          font-size: 11px;
+        }
+
+        .brand strong,
+        .store-chip strong {
+          overflow: hidden;
+          max-width: 100%;
+          font-size: 14px;
+          text-overflow: ellipsis;
+        }
+
+        .separator-dot {
+          display: none;
+        }
+
+        .store-chip {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 6px;
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          background: var(--surface-soft);
+          padding: 10px;
+        }
+
+        .sync-cluster {
+          justify-content: flex-start;
+          white-space: normal;
+        }
+
+        .workspace {
+          gap: 14px;
+        }
+
+        .hero {
+          gap: 14px;
+          padding: 8px 0 0;
+        }
+
+        .hero-copy {
+          gap: 7px;
+        }
+
+        .hero-eyebrow {
+          font-size: 11px;
+        }
+
+        h1 {
+          font-size: 26px;
+        }
+
+        .hero-copy p {
+          font-size: 13px;
+        }
+
+        .hero-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .search-wrap,
+        .hero-actions button,
+        .hero-actions .badge {
+          width: 100%;
+        }
+
+        .hero-actions .badge {
+          justify-content: center;
+        }
+
+        .notice {
+          right: 10px;
+          bottom: 10px;
+          max-width: calc(100vw - 20px);
+          border-radius: 14px;
+          padding: 10px 12px;
+        }
+
+        .content-grid,
+        .main-column,
+        .right-rail {
+          gap: 12px;
+        }
+
+        .card,
+        .rail-card {
+          border-radius: 16px;
+        }
+
+        .card-head {
+          display: grid;
+          gap: 12px;
+          padding: 16px;
+        }
+
+        .title-with-icon {
+          gap: 10px;
+        }
+
+        .icon-tile {
+          width: 36px;
+          height: 36px;
+          border-radius: 12px;
+        }
+
+        .card-title p,
+        .rail-title p,
+        .queue-demo-note {
+          font-size: 12px;
+        }
+
+        .card-head > .badge {
+          justify-self: start;
+        }
+
+        .filter-row {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 7px;
+          padding: 12px;
+        }
+
+        .filter-chip {
+          width: 100%;
+          min-height: 34px;
+          padding: 7px 10px;
+          font-size: 12px;
+        }
+
+        .queue-count {
+          grid-column: 1 / -1;
+          margin-left: 0;
+          padding-top: 2px;
+        }
+
+        .table-scroll {
+          padding: 0 10px 10px;
+        }
+
+        .queue-table {
+          border-spacing: 0;
+          display: block;
+          table-layout: auto;
+          width: 100%;
+        }
+
+        .queue-table thead {
+          display: none;
+        }
+
+        .queue-table tbody {
+          display: grid;
+          gap: 12px;
+        }
+
+        .queue-table tr {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          margin: 0;
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          background: #ffffff;
+          box-shadow: var(--shadow-soft);
+          padding: 14px;
+        }
+
+        .queue-table td,
+        tr td:first-child,
+        tr td:last-child {
+          display: block;
+          min-width: 0;
+          max-width: none;
+          width: auto;
+          border: 0;
+          border-radius: 0;
+          background: transparent;
+          padding: 0;
+        }
+
+        .queue-table td:nth-child(1),
+        .queue-table td:nth-child(2),
+        .queue-table td:nth-child(3),
+        .queue-table td:nth-child(4),
+        .queue-table td:nth-child(5),
+        .queue-table td:nth-child(6),
+        .queue-table td:nth-child(7),
+        .queue-table td:nth-child(8) {
+          width: auto;
+        }
+
+        .queue-table td::before {
+          display: block;
+          margin-bottom: 5px;
+          color: var(--muted);
+          content: attr(data-label);
+          font-size: 10px;
+          font-weight: 950;
+          letter-spacing: 0;
+          text-transform: uppercase;
+        }
+
+        .queue-table td:nth-child(1) {
+          order: 2;
+        }
+
+        .queue-table td:nth-child(2) {
+          grid-column: 1 / -1;
+          order: 1;
+        }
+
+        .queue-table td:nth-child(3) {
+          order: 3;
+        }
+
+        .queue-table td:nth-child(4) {
+          order: 4;
+        }
+
+        .queue-table td:nth-child(5) {
+          grid-column: 1 / -1;
+          order: 5;
+        }
+
+        .queue-table td:nth-child(6) {
+          order: 6;
+        }
+
+        .queue-table td:nth-child(7) {
+          grid-column: 1 / -1;
+          order: 7;
+        }
+
+        .queue-table td:nth-child(8) {
+          grid-column: 1 / -1;
+          order: 8;
+        }
+
+        .customer-profile {
+          align-items: flex-start;
+        }
+
+        .avatar {
+          width: 34px;
+          height: 34px;
+          border-radius: 12px;
+        }
+
+        .customer-copy strong,
+        .money-strong {
+          font-size: 14px;
+        }
+
+        .subtext {
+          font-size: 11px;
+        }
+
+        .pill,
+        .status {
+          width: fit-content;
+          max-width: 100%;
+          min-height: 24px;
+          padding: 5px 9px;
+          font-size: 11px;
+        }
+
+        .pill.angle {
+          display: inline-flex;
+          width: 100%;
+          justify-content: flex-start;
+          line-height: 1.25;
+          white-space: normal;
+        }
+
+        .message-preview {
+          border: 1px solid #e5e8f4;
+          border-radius: 14px;
+          background: var(--surface-soft);
+          padding: 11px;
+          font-size: 13px;
+          overflow-wrap: anywhere;
+          white-space: normal;
+        }
+
+        .queue-actions {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .queue-actions button,
+        .queue-actions button:nth-child(3) {
+          grid-column: auto;
+          min-height: 40px;
+          font-size: 13px;
+        }
+
+        .queue-actions button[data-queue-action="mark-sent"] {
+          order: -1;
+          background: var(--navy);
+          box-shadow: 0 12px 22px rgba(18, 24, 38, 0.16);
+        }
+
+        .queue-footer {
+          gap: 10px;
+          padding: 12px;
+        }
+
+        .pagination {
+          width: 100%;
+        }
+
+        .page-button {
+          flex: 1;
+        }
+
+        .right-rail {
+          display: flex;
+          gap: 12px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          padding-bottom: 4px;
+        }
+
+        .right-rail > .rail-card {
+          flex: 0 0 min(88vw, 340px);
+          scroll-snap-align: start;
+        }
+
+        .integration-card.visible {
+          display: block;
+        }
+
+        .rail-head {
+          padding: 14px;
+        }
+
+        .rail-body {
+          padding: 14px;
+        }
+
+        .summary-list {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .summary-item,
+        .settings-item,
+        .sync-item {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 6px;
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          background: var(--surface-soft);
+          padding: 10px;
+        }
+
+        .summary-item strong,
+        .settings-item strong,
+        .sync-item strong {
+          text-align: left;
+        }
+
+        .settings-list,
+        .audit-list,
+        .pilot-steps,
+        .sync-list {
+          gap: 8px;
+        }
+
+        .ops-row,
+        .ops-actions,
+        .modal-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .ops-actions button,
+        .dev-grid button,
+        .modal-actions button {
+          width: 100%;
+        }
+
+        .dev-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .modal-backdrop {
+          align-items: flex-end;
+          padding: 10px;
+        }
+
+        .modal {
+          width: 100%;
+          max-height: calc(100vh - 20px);
+          border-radius: 20px;
+        }
+
+        .modal-head {
+          padding: 16px;
+        }
+
+        .modal-body {
+          padding: 16px;
+        }
+      }
+
+      @media (min-width: 641px) and (max-width: 900px) {
         .table-scroll {
           padding: 0 12px 10px;
         }
@@ -1179,6 +1627,35 @@
         .queue-footer {
           align-items: flex-start;
           flex-direction: column;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .summary-list {
+          grid-template-columns: 1fr;
+        }
+
+        .queue-table tr {
+          grid-template-columns: 1fr;
+        }
+
+        .queue-table td:nth-child(1),
+        .queue-table td:nth-child(3),
+        .queue-table td:nth-child(4),
+        .queue-table td:nth-child(6) {
+          grid-column: 1 / -1;
+        }
+
+        .filter-chip {
+          grid-column: 1 / -1;
+        }
+
+        .right-rail > .rail-card {
+          flex-basis: min(92vw, 340px);
+        }
+
+        .dev-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -1370,7 +1847,7 @@
                   </div>
                   <label>
                     Message template
-                    <textarea id="setting-template" rows="4">Hi {{first_name}}, your knitwear piece is still in your cart. Need help with sizing, material, or delivery before you complete your order?</textarea>
+                    <textarea id="setting-template" rows="4">Hi Maya, your knitwear piece is still in your cart. Need help with sizing, material, or delivery before you complete your order?</textarea>
                   </label>
                   <button id="save-settings" type="button">Save Settings</button>
                 </div>
@@ -1567,7 +2044,7 @@
         {
           id: "maya-chen",
           customer_name: "Maya Chen",
-          customer_email: "maya.chen@email.com",
+          customer_email: "WhatsApp contact available",
           cart_value: 220,
           currency: "EUR",
           time_label: "32 min ago",
@@ -1588,7 +2065,7 @@
         {
           id: "lina-wong",
           customer_name: "Lina Wong",
-          customer_email: "lina.wong@email.com",
+          customer_email: "WhatsApp contact available",
           cart_value: 340,
           currency: "EUR",
           time_label: "2h ago",
@@ -1608,7 +2085,7 @@
         {
           id: "sarah-tan",
           customer_name: "Sarah Tan",
-          customer_email: "sarah.tan@email.com",
+          customer_email: "WhatsApp contact available",
           cart_value: 145,
           currency: "EUR",
           time_label: "3h ago",
@@ -1628,7 +2105,7 @@
         {
           id: "fatima-ali",
           customer_name: "Fatima Ali",
-          customer_email: "fatima.ali@email.com",
+          customer_email: "WhatsApp contact available",
           cart_value: 198,
           currency: "EUR",
           time_label: "5h ago",
@@ -1882,7 +2359,7 @@
                 <td data-label="Angle">${anglePill(row.angle)}</td>
                 <td data-label="Status">${statusBadge(row.status)}</td>
                 <td data-label="Prepared Message" class="message-preview">${escapeHtml(row.message_preview)}</td>
-                <td data-label="Actions">${actionButtons(row)}</td>
+                <td data-label="Follow-up">${actionButtons(row)}</td>
               </tr>
             `).join("")
           : emptyRow(
@@ -1902,6 +2379,16 @@
             ${(points || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
           </ul>
         `;
+      }
+
+      function decisionAuditPoints(item) {
+        return [
+          `${priorityLabel(item.priority)} priority because ${item.reason_points?.[0] || "the cart needs review"}.`,
+          `${item.angle} selected to match the likely purchase hesitation.`,
+          item.status === "recovered"
+            ? "Revenue is labelled recovered only after a matching purchase inside the 7-day attribution window."
+            : "Manual review keeps the follow-up safe for the private pilot."
+        ];
       }
 
       async function copyText(value) {
@@ -1944,7 +2431,7 @@
         }
 
         document.getElementById("detail-title").textContent = "Cart Recovery Detail";
-        document.getElementById("detail-subtitle").textContent = `${item.customer_name} · ${money(item.cart_value, item.currency)} · ${item.time_label}`;
+        document.getElementById("detail-subtitle").textContent = `${item.customer_name} - ${money(item.cart_value, item.currency)} - ${item.time_label}`;
         document.getElementById("detail-body").innerHTML = `
           <section class="detail-section">
             <h3>A. Customer & Cart</h3>
@@ -1954,7 +2441,7 @@
                 <strong>${escapeHtml(item.customer_name)}</strong>
               </div>
               <div class="detail-item">
-                <span>Customer email</span>
+                <span>Contact status</span>
                 <strong>${escapeHtml(item.customer_email)}</strong>
               </div>
               <div class="detail-item">
@@ -1999,6 +2486,10 @@
             <div class="detail-item">
               <strong>${escapeHtml(item.suggested_action)}</strong>
             </div>
+          </section>
+          <section class="detail-section">
+            <h3>F. Decision Audit</h3>
+            ${reasonList(decisionAuditPoints(item))}
           </section>
           <div class="modal-actions">
             <button type="button" class="secondary" data-modal-action="copy" data-row-id="${escapeHtml(item.id)}">Copy</button>
@@ -2081,7 +2572,7 @@
             enabled: true,
             delay_minutes: 30,
             attribution_window_days: 7,
-            message_template: "Hi {{first_name}}, your knitwear piece is still in your cart. Need help with sizing, material, or delivery before you complete your order?"
+            message_template: "Hi Maya, your knitwear piece is still in your cart. Need help with sizing, material, or delivery before you complete your order?"
           };
 
         document.getElementById("setting-enabled").checked = settings.enabled !== false;

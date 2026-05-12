@@ -1486,10 +1486,35 @@
     }
 
     @media (max-width: 760px) {
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      .page {
+        overflow-x: clip;
+      }
+
       .nav {
         top: 10px;
         width: calc(100% - 20px);
+        min-height: 58px;
+        padding: 9px 10px 9px 12px;
         border-radius: 24px;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+      }
+
+      .brand-name strong {
+        font-size: 14px;
       }
 
       .brand-name span,
@@ -1497,13 +1522,25 @@
         display: none;
       }
 
+      .nav-actions .btn-primary {
+        min-height: 38px;
+        padding: 0 13px;
+        font-size: 12px;
+      }
+
       .hero {
         min-height: auto;
-        padding-top: 124px;
+        padding: 118px 14px 54px;
+      }
+
+      .hero-grid {
+        gap: 28px;
       }
 
       h1 {
-        font-size: 42px;
+        margin-top: 22px;
+        font-size: 40px;
+        line-height: 1;
       }
 
       .hero-copy,
@@ -1512,29 +1549,162 @@
         font-size: 16px;
       }
 
+      .hero-copy {
+        margin-top: 18px;
+        line-height: 1.65;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        margin-top: 26px;
+      }
+
+      .hero-actions .btn,
+      .cta-actions .btn {
+        width: 100%;
+      }
+
+      .hero-proof {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .proof-item {
+        min-width: 0;
+        padding: 12px 10px;
+        border: 1px solid rgba(13, 27, 47, 0.08);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.66);
+      }
+
+      .proof-item strong {
+        font-size: 18px;
+      }
+
+      .proof-item span {
+        font-size: 10px;
+        line-height: 1.35;
+      }
+
       .hero-scene {
-        min-height: 720px;
+        display: grid;
+        grid-template-areas:
+          "board"
+          "score"
+          "phone";
+        gap: 14px;
+        min-height: auto;
+        margin-top: 28px;
+        perspective: none;
       }
 
       .hero-board {
-        top: 18px;
-        width: 640px;
-        transform: translateX(-43%) scale(0.78) rotateZ(-1deg);
-        transform-origin: top center;
+        position: relative;
+        grid-area: board;
+        top: auto;
+        right: auto;
+        left: auto;
+        width: 100%;
+        min-height: auto;
+        border-radius: 24px;
+        transform: none;
+        transform-origin: center;
+        box-shadow: 0 22px 48px rgba(16, 28, 62, 0.16);
       }
 
-      .hero-phone {
-        right: 12px;
-        bottom: 20px;
-        transform: scale(0.82) rotateZ(3deg);
-        transform-origin: bottom right;
+      .board-top {
+        align-items: flex-start;
+        gap: 14px;
+        min-height: auto;
+        padding: 16px;
+        flex-direction: column;
+      }
+
+      .board-tabs {
+        flex-wrap: wrap;
+      }
+
+      .queue-head {
+        display: none;
+      }
+
+      .queue-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 9px 12px;
+        margin: 10px;
+        padding: 14px;
+        border-radius: 18px;
+        font-size: 12px;
+      }
+
+      .queue-row .customer {
+        grid-column: 1 / 2;
+      }
+
+      .queue-row > strong {
+        grid-column: 2 / 3;
+        justify-self: end;
+      }
+
+      .queue-row .mini-message,
+      .queue-row .mini-actions {
+        grid-column: 1 / -1;
+      }
+
+      .queue-row .mini-actions {
+        flex-wrap: wrap;
+        margin-top: 2px;
+      }
+
+      .mini-button {
+        min-height: 32px;
       }
 
       .floating-score {
-        left: 4px;
-        bottom: 72px;
-        transform: scale(0.85) rotateZ(-4deg);
-        transform-origin: bottom left;
+        position: relative;
+        grid-area: score;
+        left: auto;
+        bottom: auto;
+        width: 100%;
+        margin: 0;
+        padding: 18px;
+        border-radius: 24px;
+        transform: none;
+      }
+
+      .score-ring {
+        width: 64px;
+        height: 64px;
+        font-size: 18px;
+      }
+
+      .score-copy strong {
+        font-size: 16px;
+      }
+
+      .hero-phone {
+        position: relative;
+        grid-area: phone;
+        right: auto;
+        bottom: auto;
+        width: min(100%, 300px);
+        min-height: auto;
+        margin: 0 auto;
+        border-width: 7px;
+        border-radius: 34px;
+        transform: none;
+        transform-origin: center;
+      }
+
+      .bubble {
+        margin: 14px 12px 0;
+      }
+
+      .bubble:last-child {
+        margin-bottom: 16px;
       }
 
       .section,
@@ -1552,10 +1722,52 @@
       .section-title,
       .cta-content h2 {
         font-size: 36px;
+        line-height: 1.05;
+      }
+
+      .problem-layout,
+      .difference,
+      .value-inner {
+        gap: 28px;
+      }
+
+      .pain-panel {
+        min-height: auto;
+        padding: 24px;
+        border-radius: 28px;
+      }
+
+      .pain-note {
+        font-size: 30px;
+      }
+
+      .hesitation-map {
+        grid-template-columns: 1fr;
+        margin-top: 28px;
+      }
+
+      .hesitation:nth-child(2),
+      .hesitation:nth-child(3) {
+        margin-top: 0;
       }
 
       .problem-line {
         grid-template-columns: 42px 1fr;
+        gap: 14px;
+        padding: 20px 0;
+      }
+
+      .problem-index {
+        font-size: 24px;
+      }
+
+      .problem-line h3 {
+        font-size: 20px;
+      }
+
+      .system-section,
+      .value-band {
+        padding: 72px 0;
       }
 
       .flow-shell,
@@ -1571,6 +1783,54 @@
         grid-template-columns: 1fr;
       }
 
+      .flow-step {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .showcase {
+        gap: 22px;
+        margin-top: 36px;
+      }
+
+      .showcase-item {
+        gap: 22px;
+        min-height: auto;
+      }
+
+      .showcase-copy {
+        padding: 4px;
+      }
+
+      .showcase-copy h3 {
+        font-size: 30px;
+        line-height: 1.08;
+      }
+
+      .showcase-visual {
+        min-height: auto;
+      }
+
+      .mock-window,
+      .mock-window.offset {
+        position: relative;
+        inset: auto;
+        min-height: auto;
+        border-radius: 24px;
+        transform: none;
+      }
+
+      .mock-body,
+      .angle-deck,
+      .audit-timeline,
+      .learning-visual {
+        padding: 14px;
+      }
+
+      .mock-table-row.head {
+        display: none;
+      }
+
       .learning-card.big {
         grid-column: auto;
       }
@@ -1580,8 +1840,93 @@
         grid-template-columns: 1fr;
       }
 
+      .angle-card {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .angle-card > .pill {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
+
+      .partner-network {
+        display: grid;
+        gap: 12px;
+        min-height: auto;
+        padding: 14px;
+      }
+
+      .network-node,
+      .network-node.main,
+      .network-node.one,
+      .network-node.two,
+      .network-node.three,
+      .network-node.four {
+        position: static;
+        width: 100%;
+        height: auto;
+        min-height: 88px;
+        border-radius: 22px;
+        transform: none;
+      }
+
+      .outcome {
+        min-height: auto;
+        padding: 22px;
+      }
+
+      .final-cta {
+        padding: 72px 0 48px;
+      }
+
+      .cta-panel {
+        min-height: auto;
+      }
+
+      .cta-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
       .footer {
         flex-direction: column;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .brand-name strong {
+        font-size: 13px;
+      }
+
+      .nav-actions .btn-primary {
+        padding: 0 11px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .hero-proof {
+        grid-template-columns: 1fr;
+      }
+
+      .queue-row {
+        grid-template-columns: 1fr;
+      }
+
+      .queue-row > strong {
+        grid-column: 1;
+        justify-self: start;
+      }
+
+      .section-title,
+      .cta-content h2 {
+        font-size: 32px;
+      }
+
+      .pain-note,
+      .showcase-copy h3 {
+        font-size: 28px;
       }
     }
   </style>
@@ -1643,7 +1988,7 @@
               <div class="board-top">
                 <div class="board-title">
                   <strong>Recovery Queue</strong>
-                  <span>Demo Fashion Store - 18 active abandoned carts</span>
+                  <span>Salanida Knitwear Demo - 18 sample abandoned carts</span>
                 </div>
                 <div class="board-tabs">
                   <span class="tab active">High</span>
@@ -1660,24 +2005,24 @@
                 <span>Follow-up</span>
               </div>
               <div class="queue-row featured">
-                <div class="customer"><strong>Maya Chen</strong><span>Linen Dress, Size M</span></div>
-                <strong>RM220</strong>
+                <div class="customer"><strong>Maya Chen</strong><span>Merino Knit Cardigan, Size M</span></div>
+                <strong>€220</strong>
                 <span class="pill blue">88</span>
                 <span class="pill amber">Review</span>
                 <span class="mini-message">Size reassurance: help choosing fit before checkout.</span>
                 <div class="mini-actions"><span class="mini-button">Send</span><span class="mini-button secondary">Audit</span></div>
               </div>
               <div class="queue-row">
-                <div class="customer"><strong>Aina R.</strong><span>Everyday Denim</span></div>
-                <strong>RM178</strong>
+                <div class="customer"><strong>Aina R.</strong><span>Ribbed Knit Top</span></div>
+                <strong>€178</strong>
                 <span class="pill blue">74</span>
                 <span class="pill green">Eligible</span>
                 <span class="mini-message">Payment help: checkout stopped at payment step.</span>
                 <div class="mini-actions"><span class="mini-button">Send</span></div>
               </div>
               <div class="queue-row">
-                <div class="customer"><strong>Rachel S.</strong><span>Low stock knit set</span></div>
-                <strong>RM312</strong>
+                <div class="customer"><strong>Rachel S.</strong><span>Low-stock cashmere knit set</span></div>
+                <strong>€312</strong>
                 <span class="pill blue">91</span>
                 <span class="pill green">Auto</span>
                 <span class="mini-message">Stock reminder with honest inventory signal.</span>
@@ -1874,9 +2219,9 @@
                 <div class="mock-body">
                   <div class="mock-table">
                     <div class="mock-table-row head"><span>Customer</span><span>Value</span><span>Consent</span><span>Priority</span><span>Follow-up</span></div>
-                    <div class="mock-table-row"><strong>Maya</strong><span>RM220</span><span class="pill green">OK</span><span class="pill amber">High</span><span class="mini-button">Open WhatsApp</span></div>
-                    <div class="mock-table-row"><strong>Aina</strong><span>RM178</span><span class="pill green">OK</span><span class="pill blue">Medium</span><span class="mini-button secondary">Copy</span></div>
-                    <div class="mock-table-row"><strong>Lina</strong><span>RM74</span><span class="pill amber">Review</span><span class="pill blue">Low</span><span class="mini-button secondary">Audit</span></div>
+                    <div class="mock-table-row"><strong>Maya</strong><span>€220</span><span class="pill green">OK</span><span class="pill amber">High</span><span class="mini-button">Open WhatsApp</span></div>
+                    <div class="mock-table-row"><strong>Aina</strong><span>€178</span><span class="pill green">OK</span><span class="pill blue">Medium</span><span class="mini-button secondary">Copy</span></div>
+                    <div class="mock-table-row"><strong>Lina</strong><span>€74</span><span class="pill amber">Review</span><span class="pill blue">Low</span><span class="mini-button secondary">Audit</span></div>
                   </div>
                 </div>
               </div>
